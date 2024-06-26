@@ -32,7 +32,7 @@ clear
 clear && clear && clear
 clear;clear;clear
 echo -e "\033[33;1m┌─────────────────────────────────────────────────┐\033[0m "
-echo -e "\e[33;1m│\e[0m \033[44;1;97;1m                      LUNATIX                  \033[0m \e[33;1m│\e[0m"
+echo -e "\e[33;1m│\e[0m \033[44;1;97;1m                     LUNATIX                   \033[0m \e[33;1m│\e[0m"
 echo -e "\033[33;1m└─────────────────────────────────────────────────┘\033[0m "
 sleep 4
 clear
@@ -1069,7 +1069,23 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */10 * * * * root /usr/local/sbin/clearlog
 END
 
+cat >/etc/cron.d/autoobackup <<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/30 * * * * root /usr/local/sbin/backupauto
+END
 
+cat >/etc/cron.d/otewebackup<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/30 * * * * root /usr/local/sbin/gasbackup
+END
+
+cat >/etc/cron.d/langsungbackup<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/20 * * * * root /usr/local/sbin/otwbackup
+END
 
 chmod 644 /root/.profile
 cat >/etc/cron.d/daily_reboot <<-END
@@ -1154,9 +1170,9 @@ clear
 }
 
 function run_cron(){
-wget "${CONFIG}run-cron"
-chmod +x run-cron
-./run-cron
+wget "${CONFIG}run-cron.sh"
+chmod +x run-cron.sh
+./run-cron.sh
 print_succes "install cron"
 }
 clear
@@ -1232,6 +1248,7 @@ print_install "noobzvpn"
     cd noobzvpns
     chmod +x install.sh
     ./install.sh
+    systemctl start noobzvpns
     systemctl restart noobzvpns
 print_succes "noobzvpn"
 }
@@ -1270,11 +1287,11 @@ Ins_Limit_Xray
 menu
 profile
 enable_services
-run_cron
 ins_udepe
 ins_noobz
 ins_killssh
 restart_system
+run_cron
 }
 
 instal
