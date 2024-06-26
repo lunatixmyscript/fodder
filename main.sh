@@ -426,12 +426,12 @@ chown www-data.www-data $domainSock_dir
 latest_version="$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
 bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u www-data --version $latest_version
 
-wget -O /etc/xray/vme.json "${REPO}vme.json" >/dev/null 2>&1
-wget -O /etc/xray/vle.json "${REPO}vle.json" >/dev/null 2>&1
-wget -O /etc/xray/tro.json "${REPO}tro.json" >/dev/null 2>&1
-wget -O /etc/xray/ssr.json "${REPO}ssr.json" >/dev/null 2>&1
-
-wget -O /etc/systemd/system/runn.service "${REPO}runn.service" >/dev/null 2>&1
+wget -O /etc/xray/vme.json "${CONFIG}vme.json" >/dev/null 2>&1
+wget -O /etc/xray/vle.json "${CONFIG}vle.json" >/dev/null 2>&1
+wget -O /etc/xray/tro.json "${CONFIG}tro.json" >/dev/null 2>&1
+wget -O /etc/xray/ssr.json "${CONFIG}ssr.json" >/dev/null 2>&1
+wget -O /etc/xray/ssr.json "${CONFIG}config.json" >/dev/null 2>&1
+wget -O /etc/systemd/system/runn.service "${CONFIG}runn.service" >/dev/null 2>&1
 domain=$(cat /etc/xray/domain)
 IPVS=$(cat /etc/xray/ipvps)
 print_success "Core Xray 1.8.1 Latest Version"
@@ -466,7 +466,78 @@ filesNOFILE=1000000
 [Install]
 WantedBy=multi-user.target
 EOF
-print_success "Konfigurasi Packet"
+
+cat >/etc/systemd/system/xray.service <<EOF
+Description=Xray Service
+Documentation=https://github.com
+After=network.target nss-lookup.target
+[Service]
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/usr/local/bin/xray run -config /etc/xray/vme.json
+Restart=on-failure
+RestartPreventExitStatus=23
+filesNPROC=10000
+filesNOFILE=1000000
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat >/etc/systemd/system/xray.service <<EOF
+Description=Xray Service
+Documentation=https://github.com
+After=network.target nss-lookup.target
+[Service]
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/usr/local/bin/xray run -config /etc/xray/vle.json
+Restart=on-failure
+RestartPreventExitStatus=23
+filesNPROC=10000
+filesNOFILE=1000000
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat >/etc/systemd/system/xray.service <<EOF
+Description=Xray Service
+Documentation=https://github.com
+After=network.target nss-lookup.target
+[Service]
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/usr/local/bin/xray run -config /etc/xray/tro.json
+Restart=on-failure
+RestartPreventExitStatus=23
+filesNPROC=10000
+filesNOFILE=1000000
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat >/etc/systemd/system/xray.service <<EOF
+Description=Xray Service
+Documentation=https://github.com
+After=network.target nss-lookup.target
+[Service]
+User=www-data
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
+NoNewPrivileges=true
+ExecStart=/usr/local/bin/xray run -config /etc/xray/ssr.json
+Restart=on-failure
+RestartPreventExitStatus=23
+filesNPROC=10000
+filesNOFILE=1000000
+[Install]
+WantedBy=multi-user.target
+EOF
 
 cat >/etc/systemd/system/vmejs.service <<EOF
 Description=Xray Service
@@ -485,7 +556,6 @@ filesNOFILE=1000000
 [Install]
 WantedBy=multi-user.target
 EOF
-print_success "Konfigurasi Packet"
 
 cat >/etc/systemd/system/vlejs.service <<EOF
 Description=Xray Service
@@ -504,7 +574,6 @@ filesNOFILE=1000000
 [Install]
 WantedBy=multi-user.target
 EOF
-print_success "Konfigurasi Packet"
 
 cat >/etc/systemd/system/trojs.service <<EOF
 Description=Xray Service
@@ -607,24 +676,24 @@ clear
 function Ins_Limit_Xray(){
 clear
 print_install "install limit quota"
-wget -q -O /luna/run "${REPO}limit.sh && chmod +x limit.sh && ./limit.sh"
+wget -q -O /luna/run "${CONFIG}limit.sh && chmod +x limit.sh && ./limit.sh"
 chmod +x /luna/run/limit.sh
 clear
 
 print_install "install cron Loop Quota"
-wget -q -O /luna/run/quota "${REPO}limit-quota"
+wget -q -O /luna/run/quota "${CONFIG}limit-quota"
 chmod +x /luna/run/quota
 clear
 
 
 print_install "install Cron limit-ssh"
-wget -q -O /luna/run/limit-ssh "${REPO}limit-ssh"
+wget -q -O /luna/run/limit-ssh "${CONFIG}limit-ssh"
 chmod +x /luna/run/limit-ssh
 clear
 
 
 print_install "install Limit ip Xray"
-wget -q -O /luna/run/lock-xray "${REPO}limit-xray"
+wget -q -O /luna/run/lock-xray "${CONFIG}limit-xray"
 chmod +x /luna/run/lock-xray
 cd /luna/run
 sed -i 's/\r//' lock-xray
