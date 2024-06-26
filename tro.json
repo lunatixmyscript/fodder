@@ -41,7 +41,7 @@
           "decryption":"none",
            "clients": [
               {
-                 "password": "xxx"
+                 "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
 #trojanws
               }
           ],
@@ -62,7 +62,7 @@
           "decryption":"none",
              "clients": [
                {
-                 "password": "xxx"
+                 "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
 #trojangrpc
                }
            ]
