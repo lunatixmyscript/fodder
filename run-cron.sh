@@ -11,7 +11,7 @@ echo -e " izin Acces autobackup "
 chmod +x /usr/local/sbin/autobackup
 echo -e " Izin Acces Backupauto "
 chmod +x /usr/local/sbin/backupauto
-
+chmod +x /luna/run/*
 clear
 echo -e " input limit xray to crontab "
 echo "*/1 * * * * root /luna/run/lock-xray" >>/etc/crontab
@@ -74,6 +74,8 @@ echo "*/1 * * * * root /usr/local/sbin/delexp" >>/etc/cron.d/delexp
 sleep 1
 echo " Memasang Autokill xray ke crontab "
 echo "*/1 * * * *  root /luna/run/kill-xray" >>/etc/cron.d/kill-xray
+echo "*/1 * * * * root /luna/run/lock-xray" >>/etc/cron.d/lock-xray
+
 systemctl daemon-reload
 systemctl restart cron
 sleep 2
@@ -129,7 +131,6 @@ systemctl restart lockvme
 systemctl restart lockvle
 systemctl restart locktro
 systemctl restart lockssr
-chmod +x /luna/run/*
 clear
 echo -e "\e[92;1m Succesfully installed All Service \e[0m"
 sleep 2
