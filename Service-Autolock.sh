@@ -94,5 +94,98 @@ systemctl start autolock-shadowsocks.service
 echo "*/1 * * * * root /usr/local/sbin/lockedssr" >>/etc/crontab
 echo "*/1 * * * * root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockshadowsocks
 
+
+# // SERVICE QUOTA VMESS
+cat >/etc/systemd/system/quota-vmess.service<<-END
+[Unit]
+Description=Check and Manage Vmess Quota Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/local/sbin/quotavme'
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+END
+systemctl daemon-reload
+systemctl start quota-vmess.service
+systemctl enable quota-vmess.service
+
+echo "*/1 * * * * root /usr/local/sbin/quotavme" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/quotadvme" >>/etc/cron.d/quotavmess
+
+
+# // SERVICE QUOTA VLESS
+cat >/etc/systemd/system/quota-vless.service<<-END
+[Unit]
+Description=Check and Manage VLess Quota Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/local/sbin/quotavle'
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+END
+systemctl daemon-reload
+systemctl start quota-vless.service
+systemctl enable quota-vless.service
+
+
+echo "*/1 * * * * root /usr/local/sbin/quotavle" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/quotadvle" >>/etc/cron.d/quotavless
+
+
+# // SERVICE QUOTA TROJAN
+cat >/etc/systemd/system/quota-trojan.service<<-END
+[Unit]
+Description=Check and Manage Trojan Quota Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/local/sbin/quotatro'
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+END
+
+systemctl daemon-reload
+systemctl start quota-trojan.service
+systemctl enable quota-trojan.service
+
+echo "*/1 * * * * root /usr/local/sbin/quotatro" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/quotatro" >>/etc/cron.d/quotatrojan
+
+# // SERVICE QUOTA SSR
+cat >/etc/systemd/system/quota-shadowsocks.service<<-END
+[Unit]
+Description=Check and Manage Vmess Quota Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/usr/local/sbin/quotassr'
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+END
+
+systemctl daemon-reload
+systemctl start quota-shadowsocks.service
+systemctl enable quota-shadowsocks.service
+
+echo "*/1 * * * * root /usr/local/sbin/quotassr" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/quotassr" >>/etc/cron.d/quotashadowsocks
 cd
 
