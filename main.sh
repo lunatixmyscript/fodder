@@ -1069,11 +1069,19 @@ print_install "Restarting  All Packet"
 /etc/init.d/vnstat restart
 systemctl restart haproxy
 systemctl restart cron
+systemctl restart vlejs
+systemctl restart vmejs
+systemctl restart trojs
+systemctl restart ssrjs
 /etc/init.d/cron restart
 systemctl daemon-reload
 systemctl start netfilter-persistent
 systemctl enable --now nginx
 systemctl enable --now xray
+systemctl enable --now vlejs
+systemctl enable --now vmejs
+systemctl enable --now ssrjs
+systemctl enable --now trojs
 systemctl enable --now rc-local
 systemctl enable --now dropbear
 systemctl enable --now openvpn
@@ -1145,7 +1153,15 @@ END
 
 
 echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
-echo "*/1 * * * * root echo -n > /var/log/xray/access.log" >>/etc/cron.d/log.xray
+echo "*/1 * * * * root echo -n > /var/log/xray/accessvle.log" >>/etc/cron.d/log.xrayvle
+echo "*/1 * * * * root echo -n > /var/log/xray/accessvme.log" >>/etc/cron.d/log.xrayvme
+echo "*/1 * * * * root echo -n > /var/log/xray/accesstro.log" >>/etc/cron.d/log.xraytro
+echo "*/1 * * * * root echo -n > /var/log/xray/accessssr.log" >>/etc/cron.d/log.xrayssr
+
+
+
+
+
 service cron restart
 cat >/home/daily_reboot <<-END
 5
