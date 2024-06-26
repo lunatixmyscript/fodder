@@ -4,29 +4,13 @@ clear
 ########################################
 ### MEMASANG PUNGSI AUTO KE CRONTAB ###
 ########################################
-clear
-echo -e " izin acces m-otw "
-chmod +x /usr/local/sbin/m-otw
-echo -e " izin Acces autobackup "
-chmod +x /usr/local/sbin/autobackup
-echo -e " Izin Acces Backupauto "
-chmod +x /usr/local/sbin/backupauto
-chmod +x /luna/run/*
-clear
-echo -e " input limit xray to crontab "
-echo "*/1 * * * * root /luna/run/lock-xray" >>/etc/crontab
-sleep 1
-echo -e "\e[92;1m Memasang Autobackup ke crontab \e[0m"
+echo -e "Memasang Autobackup ke crontab"
 # // Backup Setiap 60 Menit
 echo "*/59 * * * *  root /usr/local/sbin/otwbackup" >>/etc/crontab
 sleep 1
 echo " Memasang limit ssh ke crontab "
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/crontab
-sleep 1
-echo " Memasang limit xray ke crontab "
-# // Jalankan Pungsi Limit-xray setiap 1 menit
-echo "*/1 * * * *  root /luna/run/limit-xray" >>/etc/crontab
 sleep 1
 echo " Memasang limit quota ke crontab "
 # // Jalankan Pungsi Limit Quota Setiap 1 Menit
@@ -56,10 +40,6 @@ echo " Memasang limit ssh ke cron.d "
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/cron.d/limit-ssh
 sleep 1
-echo " Memasang limit xray ke cron.d "
-# // Jalankan Pungsi Limit-xray setiap 1 menit
-echo "*/1 * * * *  root /luna/run/limit-xray" >>/etc/cron.d/limit-xray
-sleep 1
 echo " Memasang limit quota ke cron.d "
 # // Jalankan Pungsi Limit Quota Setiap 1 Menit
 echo "*/1 * * * *  root /luna/run/limit-quota" >>/etc/cron.d/limit-quota
@@ -71,10 +51,6 @@ sleep 1
 echo " Memasang autokill ssh ke cron.d "
 echo "*/1 * * * *  root /luna/run/kill-ssh" >>/etc/cron.d/kill-ssh
 echo "*/1 * * * * root /usr/local/sbin/delexp" >>/etc/cron.d/delexp
-sleep 1
-echo " Memasang Autokill xray ke crontab "
-echo "*/1 * * * *  root /luna/run/kill-xray" >>/etc/cron.d/kill-xray
-echo "*/1 * * * * root /luna/run/lock-xray" >>/etc/cron.d/lock-xray
 
 systemctl daemon-reload
 systemctl restart cron
