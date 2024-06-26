@@ -430,7 +430,7 @@ wget -O /etc/xray/vme.json "${CONFIG}vme.json" >/dev/null 2>&1
 wget -O /etc/xray/vle.json "${CONFIG}vle.json" >/dev/null 2>&1
 wget -O /etc/xray/tro.json "${CONFIG}tro.json" >/dev/null 2>&1
 wget -O /etc/xray/ssr.json "${CONFIG}ssr.json" >/dev/null 2>&1
-wget -O /etc/xray/ssr.json "${CONFIG}config.json" >/dev/null 2>&1
+wget -O /etc/xray/config.json "${CONFIG}config.json" >/dev/null 2>&1
 wget -O /etc/systemd/system/runn.service "${CONFIG}runn.service" >/dev/null 2>&1
 domain=$(cat /etc/xray/domain)
 IPVS=$(cat /etc/xray/ipvps)
@@ -459,78 +459,6 @@ CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
 ExecStart=/usr/local/bin/xray run -config /etc/xray/config.json
-Restart=on-failure
-RestartPreventExitStatus=23
-filesNPROC=10000
-filesNOFILE=1000000
-[Install]
-WantedBy=multi-user.target
-EOF
-
-cat >/etc/systemd/system/xray.service <<EOF
-Description=Xray Service
-Documentation=https://github.com
-After=network.target nss-lookup.target
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /etc/xray/vme.json
-Restart=on-failure
-RestartPreventExitStatus=23
-filesNPROC=10000
-filesNOFILE=1000000
-[Install]
-WantedBy=multi-user.target
-EOF
-
-cat >/etc/systemd/system/xray.service <<EOF
-Description=Xray Service
-Documentation=https://github.com
-After=network.target nss-lookup.target
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /etc/xray/vle.json
-Restart=on-failure
-RestartPreventExitStatus=23
-filesNPROC=10000
-filesNOFILE=1000000
-[Install]
-WantedBy=multi-user.target
-EOF
-
-cat >/etc/systemd/system/xray.service <<EOF
-Description=Xray Service
-Documentation=https://github.com
-After=network.target nss-lookup.target
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /etc/xray/tro.json
-Restart=on-failure
-RestartPreventExitStatus=23
-filesNPROC=10000
-filesNOFILE=1000000
-[Install]
-WantedBy=multi-user.target
-EOF
-
-cat >/etc/systemd/system/xray.service <<EOF
-Description=Xray Service
-Documentation=https://github.com
-After=network.target nss-lookup.target
-[Service]
-User=www-data
-CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-NoNewPrivileges=true
-ExecStart=/usr/local/bin/xray run -config /etc/xray/ssr.json
 Restart=on-failure
 RestartPreventExitStatus=23
 filesNPROC=10000
