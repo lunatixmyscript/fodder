@@ -20,6 +20,9 @@ systemctl daemon-reload
 systemctl enable autolock-vmess.service
 systemctl start autolock-vmess.service
 #systemctl status autolock-vmess.service
+echo "*/1 * * * * root /usr/local/sbin/lockedvme" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/lockedvme" >>/etc/cron.d/lockvmess
+
 
 cat >/etc/systemd/system/autolock-vless.service<<-END
 [Unit]
@@ -41,6 +44,8 @@ systemctl daemon-reload
 systemctl enable autolock-vless.service
 systemctl start autolock-vless.service
 #systemctl status autolock-vless.service
+echo "*/1 * * * * root /usr/local/sbin/lockedvle" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/lockedvle" >>/etc/cron.d/lockvless
 
 
 cat >/etc/systemd/system/autolock-trojan.service<<-END
@@ -63,6 +68,8 @@ systemctl daemon-reload
 systemctl enable autolock-trojan.service
 systemctl start autolock-trojan.service
 #systemctl status autolock-trojan.service
+echo "*/1 * * * * root /usr/local/sbin/lockedtro" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktrojan
 
 cat >/etc/systemd/system/autolock-shadowsocks.service<<-END
 [Unit]
@@ -84,5 +91,8 @@ systemctl daemon-reload
 systemctl enable autolock-shadowsocks.service
 systemctl start autolock-shadowsocks.service
 #systemctl status autolock-shadowsocks.service
+echo "*/1 * * * * root /usr/local/sbin/lockedssr" >>/etc/crontab
+echo "*/1 * * * * root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockshadowsocks
+
 cd
 
