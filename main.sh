@@ -6,7 +6,7 @@ apt install curl -y
 apt install wondershaper -y
 apt install haproxy -y
 gem install lolcat -y
-apt install at
+apt install at -y
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
