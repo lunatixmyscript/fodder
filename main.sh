@@ -287,7 +287,7 @@ echo $host1 > /etc/xray/domain
 echo $host1 > /root/domain
 echo ""
 elif [[ $host == "2" ]]; then
-wget ${REPO}cf.sh && chmod +x cf.sh && ./cf.sh
+wget ${CONFIG}cf.sh && chmod +x cf.sh && ./cf.sh
 rm -f /root/cf.sh
 clear
 else
