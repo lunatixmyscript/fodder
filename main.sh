@@ -1261,6 +1261,16 @@ chmod +x /luna/run/kill-ssh
 print_succes "autokill ssh"
 }
 
+clear
+function ins_lockedservice(){
+clear
+print_install "ServiceAutolock"
+wget "${CONFIG}Service-Autolock.sh"
+chmod +x Service-Autolock.sh
+./Service-Autolock.sh
+print_succes "Service AutoLockXray"
+}
+
 function instal(){
 clear
 first_setup
@@ -1292,6 +1302,7 @@ ins_noobz
 ins_killssh
 restart_system
 run_cron
+ins_lockedservice
 }
 
 instal
@@ -1306,6 +1317,7 @@ rm -rf /root/domain
 rm -rf /root/main.sh
 rm -rf /root/LT
 rm -rf /root/run-cron
+rm -rf /root/Service-Autolock.sh
 rm noobzvpns.zip
 rm -rf noobzvpns.zip
 secs_to_human "$(($(date +%s) - ${start}))"
