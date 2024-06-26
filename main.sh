@@ -159,7 +159,12 @@ touch /var/log/xray/accessssr.log
 touch /var/log/xray/accesstro.log
 touch /var/log/xray/accessvme.log
 touch /var/log/xray/accessvle.log
-touch /var/log/xray/error.log
+touch /var/log/xray/errorvme.log
+touch /var/log/xray/errorvle.log
+touch /var/log/xray/errortro.log
+touch /var/log/xray/errorssr.log
+
+
 mkdir -p /var/lib/LT >/dev/null 2>&1
 while IFS=":" read -r a b; do
 case $a in
