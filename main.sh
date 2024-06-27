@@ -24,10 +24,6 @@ red='\e[1;31m'
 green='\e[0;32m'
 TIME=$(date '+%d %b %Y')
 ipsaya=$(wget -qO- ipinfo.io/ip)
-TIMES="10"
-CHATID="-1002154836378"
-KEY="7453812955:AAFQBmGCpGNv_MHKkmfn2pKdn7RfBp8W45A"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
 clear
 export IP=$( curl -sS icanhazip.com )
 clear
@@ -302,6 +298,10 @@ clear
 restart_system() {
 USRSC=$(wget -qO- https://raw.githubusercontent.com/lunatixmyscript/lunaip/main/ip | grep $ipsaya | awk '{print $2}')
 EXPSC=$(wget -qO- https://raw.githubusercontent.com/lunatixmyscript/lunaip/main/ip | grep $ipsaya | awk '{print $3}')
+export TIMES="10"
+export CHATID="-1002154836378"
+export KEY="7297705547:AAEtFf29f3nMIQq3VmdRtJNWACGujwHJ7lw"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
 TIMEZONE=$(printf '%(%H:%M:%S)T')
 TEXT="
 <code>────────────────────</code>
