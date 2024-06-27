@@ -71,6 +71,7 @@ echo -e "\e[32mloading...\e[0m"
 clear
 MYIP=$(curl -sS ipv4.icanhazip.com)
 echo -e "\e[32mloading...\e[0m"
+mkdir -p /luna/run
 clear
 clear
 rm -f /usr/bin/user
