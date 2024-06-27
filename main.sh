@@ -621,7 +621,7 @@ clear
 
 
 print_install "install Limit ip Xray"
-wget -q -O /luna/run/lock-xray "${CONFIG}limit-xray"
+wget -q -O /luna/run/lock-xray "${CONFIG}lock-xray"
 chmod +x /luna/run/lock-xray
 cd /luna/run
 sed -i 's/\r//' lock-xray
