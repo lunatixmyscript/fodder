@@ -1,5 +1,7 @@
 #!/bin/bash
 clear
+
+export PATH=/luna/run
 # // Menjalankan Pungsi Dengan Crontab
 ########################################
 ### MEMASANG PUNGSI AUTO KE CRONTAB ###
@@ -34,7 +36,7 @@ clear
 ########################################
 echo -e "\e[92;1m Memasang autobackup ke cron.d \e[0m"
 # // Menjalankan pungsi Dengan Cron.d
-echo "*/59 * * * *  root /usr/local/sbin/otwbackup" >>/etc/cron.d/otwbackup
+echo "*/59 * * * *  root /usr/local/sbin/otwbackup" >>/etc/cron.d/autobackup
 sleep 1
 echo " Memasang limit ssh ke cron.d "
 # // Jalankan pungsi Limit-ssh setiap 1 menit
@@ -42,8 +44,14 @@ echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/cron.d/limit-ssh
 sleep 1
 echo " Memasang limit quota ke cron.d "
 # // Jalankan Pungsi Limit Quota Setiap 1 Menit
-echo "*/1 * * * *  root /luna/run/limit-quota" >>/etc/cron.d/limit-quota
+echo "*/1 * * * *  root /luna/run/limit-quota" >>/etc/cron.d/limit-quota-xray
 sleep 1
+
+echo " Memasang limit ip xray ke cron.d "
+# // Jalankan Pungsi Limit Quota Setiap 1 Menit
+echo "*/1 * * * *  root /luna/run/lock-xray" >>/etc/cron.d/locked-all-xray
+sleep 1
+
 echo " Memasang xp ke cron.d "
 # // Delete Account Trial Yang Sudah Expired Setiap 30 Menit
 echo "*/30 * * * *  root /usr/local/sbin/xp" >>/etc/cron.d/xp
