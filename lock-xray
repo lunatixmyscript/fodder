@@ -36,6 +36,7 @@ function lockvme() {
             sed -i "/### $user /{n;s/^/#/}" /etc/xray/vme.json
             systemctl restart xray >> /dev/null 2>&1
             systemctl restart vmejs >> /dev/null 2>&1
+            systemctl restart atd >> /dev/null 2>&1
             send_log "vmess" "$user" "$iplimit" "$cekcek"
             echo "unlockxray vmess $user" | at now + 10 minutes
             systemctl restart xray >> /dev/null 2>&1
@@ -60,6 +61,7 @@ function lockvle() {
             sed -i "/#& $user /{n;s/^/#/}" /etc/xray/vle.json
             systemctl restart xray >> /dev/null 2>&1
             systemctl restart vlejs >> /dev/null 2>&1
+            systemctl restart atd >> /dev/null 2>&1
             send_log "vless" "$user" "$iplimit" "$cekcek"
             echo "unlockxray vless $user" | at now + 10 minutes
             systemctl restart xray >> /dev/null 2>&1
@@ -84,6 +86,7 @@ function locktro() {
             sed -i "/#! $user /{n;s/^/#/}" /etc/xray/tro.json
             systemctl restart xray >> /dev/null 2>&1
             systemctl restart trojs >> /dev/null 2>&1
+            systemctl restart atd >> /dev/null 2>&1
             send_log "trojan" "$user" "$iplimit" "$cekcek"
             echo "unlockxray trojan $user" | at now + 10 minutes
             systemctl restart xray >> /dev/null 2>&1
@@ -108,6 +111,7 @@ function lockssr() {
             sed -i "/#!# $user /{n;s/^/#/}" /etc/xray/ssr.json
             systemctl restart xray >> /dev/null 2>&1
             systemctl restart ssrjs >> /dev/null 2>&1
+            systemctl restart atd >> /dev/null 2>&1
             send_log "shadowsocks" "$user" "$iplimit" "$cekcek"
             echo "unlockxray shadowsocks $user" | at now + 10 minutes
             systemctl restart xray >> /dev/null 2>&1
