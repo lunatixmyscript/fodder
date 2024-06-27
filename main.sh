@@ -358,23 +358,11 @@ mkdir -p /etc/trojan
 mkdir -p /etc/shadowsocks
 mkdir -p /etc/ssh
 mkdir -p /etc/noobzvpns
-
-# // create Folder ltx
-mkdir -p /etc/ltx
-# // Folder Data db
-mkdir -p /etc/ltx/.ssh.db
-mkdir -p /etc/ltx/.vle.db
-mkdir -p /etc/ltx/.vme.db
-mkdir -p /etc/ltx/.ssr.db
-mkdir -p /etc/ltx/.nob.db
-mkdir -p /etc/ltx/.tro.db
-mkdir -p /etc/ltx/.bot.db
 # // xray Fodder
 mkdir -p /usr/bin/xray/
 mkdir -p /var/log/xray/
 mkdir -p /var/log/xray
 chmod +x /var/log/xray
-chmod +x /var/log/xray/*
 mkdir -p /var/www/html
 # // fodder
 mkdir -p /etc/limit/vmess
@@ -390,6 +378,14 @@ mkdir -p /etc/lunatic/limit/trojan/ip
 mkdir -p /etc/lunatic/limit/ssh/ip
 mkdir -p /etc/lunatic/limit/noobzvpns/ip
 mkdir -p /etc/lunatic/limit/shadowsocks/ip
+# // Repo Account
+mkdir -p /etc/lunatic/limit/vmess/account
+mkdir -p /etc/lunatic/limit/vless/account
+mkdir -p /etc/lunatic/limit/trojan/account
+mkdir -p /etc/lunatic/limit/ssh/account
+mkdir -p /etc/lunatic/limit/noobzvpns/account
+mkdir -p /etc/lunatic/limit/shadowsocks/account
+
 # // Repo Kuota Data
 mkdir -p /etc/lunatic/limit/vmess/quota
 mkdir -p /etc/lunatic/limit/vless/quota
@@ -609,8 +605,8 @@ chmod +x /luna/run/limit.sh
 clear
 
 print_install "install cron Loop Quota"
-wget -q -O /luna/run/quota "${CONFIG}limit-quota"
-chmod +x /luna/run/quota
+wget -q -O /luna/run/limit-quota "${CONFIG}limit-quota"
+chmod +x /luna/run/limit-quota
 clear
 
 
@@ -631,15 +627,17 @@ clear
 # // IP LIMIT VMESS
 cat >/etc/systemd/system/lockvme.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Lock Xray VMESS Limit IP
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/lock-xray lockvme
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
-EOF
+END
 systemctl daemon-reload
 systemctl restart lockvme
 systemctl enable lockvme
@@ -648,12 +646,14 @@ systemctl enable lockvme
 # // IP LIMIT VLESS
 cat >/etc/systemd/system/lockvle.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Lock Xray VLESS Limit IP
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/lock-xray lockvle
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -664,12 +664,14 @@ systemctl enable lockvle
 # // IP LIMIT TROJAN
 cat >/etc/systemd/system/locktro.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Lock Xray TROJAN Limit IP
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/lock-xray locktro
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -680,12 +682,14 @@ systemctl enable locktro
 # // IP LIMIT SHADOWSOCK
 cat >/etc/systemd/system/lockssr.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Lock Xray SHADOWSOCKS Limit IP
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/lock-xray lockssr
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -694,15 +698,19 @@ systemctl enable lockssr
 systemctl restart lockssr
 
 
+wget -q -O /luna/run/limit-quota "${CONFIG}limit-quota"
+chmod +x /luna/run/limit-quota
 # // QUOTA VMESS
 cat >/etc/systemd/system/vme.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Limit Quota VMESS Service
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/limit-quota vme
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -714,12 +722,14 @@ systemctl restart vme
 # // QUOTA VLESS
 cat >/etc/systemd/system/vle.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Limit Quota VMESS Service
+After=network.target
+
 [Service]
-WorkingDirectory=/root
-ExecStart=/luna-run/limit-quota vle
+WorkingDirectory=/luna/run
+ExecStart=/luna/run/limit-quota vle
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -731,12 +741,14 @@ systemctl restart vle
 # // QUOTA TROJAN
 cat >/etc/systemd/system/tro.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Limit Quota VMESS Service
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/limit-quota tro
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -748,12 +760,14 @@ systemctl restart tro
 # // QUOTA SHADOWSOCKS
 cat >/etc/systemd/system/ssr.service << EOF
 [Unit]
-Description=My
-ProjectAfter=network.target
+Description=Limit Quota VMESS Service
+After=network.target
+
 [Service]
-WorkingDirectory=/root
+WorkingDirectory=/luna/run
 ExecStart=/luna/run/limit-quota ssr
 Restart=always
+
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -1060,32 +1074,49 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */30 * * * * root /usr/local/sbin/xp
 END
+systemctl restart cron
 
+cat >/etc/cron.d/lock-all-xray<<-END
+SHELL=/bin/sh
+PATH=/luna/run
+*/1 * * * * root /luna/run/lock-xray
+END
+systemctl restart cron
 
+cat >/etc/cron.d/quota-all-xray<<-END
+SHELL=/bin/sh
+PATH=/luna/run
+*/1 * * * * root /luna/run/limit-quota
+END
+systemctl restart cron
 
 cat >/etc/cron.d/logclean <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */10 * * * * root /usr/local/sbin/clearlog
 END
+systemctl restart cron
 
 cat >/etc/cron.d/autoobackup <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */30 * * * * root /usr/local/sbin/backupauto
 END
+systemctl restart cron
 
 cat >/etc/cron.d/otewebackup<<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */30 * * * * root /usr/local/sbin/gasbackup
 END
+systemctl restart cron
 
 cat >/etc/cron.d/langsungbackup<<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */20 * * * * root /usr/local/sbin/otwbackup
 END
+systemctl restart cron
 
 chmod 644 /root/.profile
 cat >/etc/cron.d/daily_reboot <<-END
@@ -1093,16 +1124,18 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 0 5 * * * root /sbin/reboot
 END
-
+systemctl restart cron
 
 
 echo "*/1 * * * * root echo -n > /var/log/nginx/access.log" >/etc/cron.d/log.nginx
+echo "*/1 * * * * root echo -n > /var/log/nginx/accessvle.log" >/etc/cron.d/log.nginxvle
+echo "*/1 * * * * root echo -n > /var/log/nginx/accessvme.log" >/etc/cron.d/log.nginxvme
+echo "*/1 * * * * root echo -n > /var/log/nginx/accessssr.log" >/etc/cron.d/log.nginxssr
+echo "*/1 * * * * root echo -n > /var/log/nginx/accesstro.log" >/etc/cron.d/log.nginxtro
 echo "*/1 * * * * root echo -n > /var/log/xray/accessvle.log" >>/etc/cron.d/log.xrayvle
 echo "*/1 * * * * root echo -n > /var/log/xray/accessvme.log" >>/etc/cron.d/log.xrayvme
 echo "*/1 * * * * root echo -n > /var/log/xray/accesstro.log" >>/etc/cron.d/log.xraytro
 echo "*/1 * * * * root echo -n > /var/log/xray/accessssr.log" >>/etc/cron.d/log.xrayssr
-
-
 
 
 
@@ -1156,6 +1189,7 @@ systemctl enable --now cron
 systemctl enable --now netfilter-persistent
 systemctl enable rclone
 systemctl enable lock-xray
+systemctl enable limit-quota
 sistemctl enable atd
 
 systemctl restart nginx
@@ -1164,6 +1198,7 @@ systemctl restart cron
 systemctl restart haproxy
 systemctl restart rclone
 systemctl restart lock-xray
+systemctl restart limit-quota
 systemctl restart atd
 print_success "Enable Service"
 clear
@@ -1175,6 +1210,7 @@ chmod +x run-cron.sh
 ./run-cron.sh
 print_succes "install cron"
 }
+
 clear
 function ins_udepe(){
 clear
