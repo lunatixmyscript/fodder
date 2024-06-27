@@ -7,8 +7,6 @@ apt install wondershaper -y
 apt install haproxy -y
 gem install lolcat -y
 apt install at -y
-apt install coreutils -y
-export PATH=/luna/run
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -627,7 +625,7 @@ cd
 clear
 
 # // IP LIMIT VMESS
-cat >/etc/systemd/system/lockvme.service << EOF
+cat >/etc/systemd/system/lockvme.service <<-END
 [Unit]
 Description=Lock Xray VMESS Limit IP
 After=network.target
@@ -646,7 +644,7 @@ systemctl enable lockvme
 
 
 # // IP LIMIT VLESS
-cat >/etc/systemd/system/lockvle.service << EOF
+cat >/etc/systemd/system/lockvle.service <<-END
 [Unit]
 Description=Lock Xray VLESS Limit IP
 After=network.target
@@ -658,13 +656,14 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
-EOF
+END
+
 systemctl daemon-reload
 systemctl restart lockvle
 systemctl enable lockvle
 
 # // IP LIMIT TROJAN
-cat >/etc/systemd/system/locktro.service << EOF
+cat >/etc/systemd/system/locktro.service <<-END
 [Unit]
 Description=Lock Xray TROJAN Limit IP
 After=network.target
@@ -676,7 +675,8 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
-EOF
+END
+
 systemctl daemon-reload
 systemctl restart locktro
 systemctl enable locktro
