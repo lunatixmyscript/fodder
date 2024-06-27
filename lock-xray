@@ -1,126 +1,171 @@
 #!/bin/bash
-send_logg() {
-  TEKS="
-=========================== 
-Lock Account Multilogin
-===========================
-Username: ${user}
-Limit ip: ${iplimit} IP
-login ip: ${cekcek} IP
-===========================
-Akun Terkunci Selama 10 menit
-jangan nakal makanya tai
-untung di lock, kalau di kill?
-CEMAS KAU DEEK
-==========================="
-CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
-KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
-TIME="10"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
+Send_Logging(){
+export CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
+export KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+export TIME="10"
+export URL="https://api.telegram.org/bot$KEY/sendMessage"
 
-  curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEKS&parse_mode=html" $URL >/dev/null
-  clear
-}
+TEXT="
+<code>====================</code>
+<code>  MULTI LOGIN XRAY  </code>
+<code>====================</code>
+<code> USERNAME : $user   </code>
+<code> LIMIT IP : $iplimit</code>
+<code> LOGIN IP : $num_accessed_ips </code>
+<code>====================</code>
+<code>  Locked 15 minutes </code>
+<code>====================</code>
+curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL
+"
 
 function lockvme() {
-    echo -n > /var/log/xray/accessvme.log
-    sleep 60
-    declare -a data=($(ls /etc/lunatic/limit/vmess/ip))
-    for user in "${data[@]}"
-    do
-        iplimit=$(cat /etc/lunatic/limit/vmess/ip/$user)
-        ehh=$(cat /var/log/xray/accessvme.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
-        cekcek=$(echo -e "$ehh" | wc -l)
-        if [[ $cekcek -gt $iplimit ]]; then
-            exp=$(grep -w "^### $user" "/etc/xray/vme.json" | cut -d ' ' -f 3 | sort | uniq)
-            sed -i "/### $user /{n;s/^/#/}" /etc/xray/vme.json
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart vmejs >> /dev/null 2>&1
-            systemctl restart atd >> /dev/null 2>&1
-            send_log "vmess" "$user" "$iplimit" "$cekcek"
-            echo "unlockxray vmess $user" | at now + 10 minutes
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart vmejs >> /dev/null 2>&1
-        else
-            echo ""
-        fi
-        sleep 0.1
-    done
+# Clear access log
+echo -n > /var/log/xray/accessvme.log
+
+# Sleep for 60 seconds to collect access logs
+sleep 60
+
+# Ambil daftar pengguna dari direktori batasan IP
+declare -a data=($(ls /etc/lunatic/limit/vmess/ip))
+
+for user in "${data[@]}"
+do
+    # Ambil batasan IP dari file
+    iplimit=$(cat /etc/lunatic/limit/vmess/ip/$user)
+    
+    # Ambil daftar IP yang diakses oleh pengguna dari log akses
+    accessed_ips=$(cat /var/log/xray/accessvme.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
+    
+    # Hitung jumlah IP yang diakses
+    num_accessed_ips=$(echo "$accessed_ips" | wc -l)
+    
+    if [[ $num_accessed_ips -gt $iplimit ]]; then
+        # Kunci akun pengguna
+        sed -i "/### $user /{n;s/^/#/}" /etc/xray/vme.json
+        systemctl restart xray >> /dev/null 2>&1
+        systemctl restart vmejs >> /dev/null 2>&1
+        
+        # Kirim log
+        Send_Logging
+        
+        # Jadwalkan pembukaan kembali setelah 15 menit
+        echo "echo 'sed -i "/### $user /{n;s/^#//}" /etc/xray/vme.json && systemctl restart xray >> /dev/null 2>&1 && systemctl restart vmejs >> /dev/null 2>&1' | at now + 15 minutes" | bash
+    fi
+    
+    sleep 0.1
+done
 }
 function lockvle() {
-    echo -n > /var/log/xray/accessvle.log
-    sleep 60
-    declare -a data=($(ls /etc/lunatic/limit/vless/ip))
-    for user in "${data[@]}"
-    do
-        iplimit=$(cat /etc/lunatic/limit/vless/ip/$user)
-        ehh=$(cat /var/log/xray/accessvle.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
-        cekcek=$(echo -e "$ehh" | wc -l)
-        if [[ $cekcek -gt $iplimit ]]; then
-            exp=$(grep -w "^#& $user" "/etc/xray/vle.json" | cut -d ' ' -f 3 | sort | uniq)
-            sed -i "/#& $user /{n;s/^/#/}" /etc/xray/vle.json
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart vlejs >> /dev/null 2>&1
-            systemctl restart atd >> /dev/null 2>&1
-            send_log "vless" "$user" "$iplimit" "$cekcek"
-            echo "unlockxray vless $user" | at now + 10 minutes
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart vlejs >> /dev/null 2>&1
-        else
-            echo ""
-        fi
-        sleep 0.1
-    done
+# Clear access log
+echo -n > /var/log/xray/accessvle.log
+
+# Sleep for 60 seconds to collect access logs
+sleep 60
+
+# Ambil daftar pengguna dari direktori batasan IP
+declare -a data=($(ls /etc/lunatic/limit/vless/ip))
+
+for user in "${data[@]}"
+do
+    # Ambil batasan IP dari file
+    iplimit=$(cat /etc/lunatic/limit/vless/ip/$user)
+    
+    # Ambil daftar IP yang diakses oleh pengguna dari log akses
+    accessed_ips=$(cat /var/log/xray/accessvle.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
+    
+    # Hitung jumlah IP yang diakses
+    num_accessed_ips=$(echo "$accessed_ips" | wc -l)
+    
+    if [[ $num_accessed_ips -gt $iplimit ]]; then
+        # Kunci akun pengguna
+        sed -i "/#& $user /{n;s/^/#/}" /etc/xray/vle.json
+        systemctl restart xray >> /dev/null 2>&1
+        systemctl restart vlejs >> /dev/null 2>&1
+        
+        # Kirim log
+        Send_Logging
+        
+        # Jadwalkan pembukaan kembali setelah 15 menit
+        echo "echo 'sed -i "/#& $user /{n;s/^#//}" /etc/xray/vle.json && systemctl restart xray >> /dev/null 2>&1 && systemctl restart vlejs >> /dev/null 2>&1' | at now + 15 minutes" | bash
+    fi
+    
+    sleep 0.1
+done
 }
 function locktro() {
-    echo -n > /var/log/xray/accesstro.log
-    sleep 60
-    declare -a data=($(ls /etc/lunatic/limit/trojan/ip))
-    for user in "${data[@]}"
-    do
-        iplimit=$(cat /etc/lunatic/limit/trojan/ip/$user)
-        ehh=$(cat /var/log/xray/accesstro.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
-        cekcek=$(echo -e "$ehh" | wc -l)
-        if [[ $cekcek -gt $iplimit ]]; then
-            exp=$(grep -w "^#! $user" "/etc/xray/tro.json" | cut -d ' ' -f 3 | sort | uniq)
-            sed -i "/#! $user /{n;s/^/#/}" /etc/xray/tro.json
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart trojs >> /dev/null 2>&1
-            systemctl restart atd >> /dev/null 2>&1
-            send_log "trojan" "$user" "$iplimit" "$cekcek"
-            echo "unlockxray trojan $user" | at now + 10 minutes
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart trojs >> /dev/null 2>&1
-        else
-            echo ""
-        fi
-        sleep 0.1
-    done
+# Clear access log
+echo -n > /var/log/xray/accesstro.log
+
+# Sleep for 60 seconds to collect access logs
+sleep 60
+
+# Ambil daftar pengguna dari direktori batasan IP
+declare -a data=($(ls /etc/lunatic/limit/trojan/ip))
+
+for user in "${data[@]}"
+do
+    # Ambil batasan IP dari file
+    iplimit=$(cat /etc/lunatic/limit/trojan/ip/$user)
+    
+    # Ambil daftar IP yang diakses oleh pengguna dari log akses
+    accessed_ips=$(cat /var/log/xray/accesstro.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
+    
+    # Hitung jumlah IP yang diakses
+    num_accessed_ips=$(echo "$accessed_ips" | wc -l)
+    
+    if [[ $num_accessed_ips -gt $iplimit ]]; then
+        # Kunci akun pengguna
+        sed -i "/#! $user /{n;s/^/#/}" /etc/xray/tro.json
+        systemctl restart xray >> /dev/null 2>&1
+        systemctl restart trojs >> /dev/null 2>&1
+        
+        # Kirim log
+        Send_Logging
+        
+        # Jadwalkan pembukaan kembali setelah 15 menit
+        echo "echo 'sed -i "/#! $user /{n;s/^#//}" /etc/xray/tro.json && systemctl restart xray >> /dev/null 2>&1 && systemctl restart trojs >> /dev/null 2>&1' | at now + 15 minutes" | bash
+    fi
+    
+    sleep 0.1
+done
+
 }
 function lockssr() {
-    echo -n > /var/log/xray/accessssr.log
-    sleep 60
-    declare -a data=($(ls /etc/lunatic/limit/shadowsocks/ip))
-    for user in "${data[@]}"
-    do
-        iplimit=$(cat /etc/lunatic/limit/shadowsocks/ip/$user)
-        ehh=$(cat /var/log/xray/accessssr.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
-        cekcek=$(echo -e "$ehh" | wc -l)
-        if [[ $cekcek -gt $iplimit ]]; then
-            exp=$(grep -w "^#!# $user" "/etc/xray/ssr.json" | cut -d ' ' -f 3 | sort | uniq)
-            sed -i "/#!# $user /{n;s/^/#/}" /etc/xray/ssr.json
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart ssrjs >> /dev/null 2>&1
-            systemctl restart atd >> /dev/null 2>&1
-            send_log "shadowsocks" "$user" "$iplimit" "$cekcek"
-            echo "unlockxray shadowsocks $user" | at now + 10 minutes
-            systemctl restart xray >> /dev/null 2>&1
-            systemctl restart ssrjs >> /dev/null 2>&1
-        else
-            echo ""
-        fi
-        sleep 0.1
-    done
+# Clear access log
+echo -n > /var/log/xray/accessssr.log
+
+# Sleep for 60 seconds to collect access logs
+sleep 60
+
+# Ambil daftar pengguna dari direktori batasan IP
+declare -a data=($(ls /etc/lunatic/limit/shadowsocks/ip))
+
+for user in "${data[@]}"
+do
+    # Ambil batasan IP dari file
+    iplimit=$(cat /etc/lunatic/limit/shadowsocks/ip/$user)
+    
+    # Ambil daftar IP yang diakses oleh pengguna dari log akses
+    accessed_ips=$(cat /var/log/xray/accessssr.log | grep "$user" | cut -d " " -f 3 | sed 's/tcp://g' | cut -d ":" -f 1 | sort | uniq)
+    
+    # Hitung jumlah IP yang diakses
+    num_accessed_ips=$(echo "$accessed_ips" | wc -l)
+    
+    if [[ $num_accessed_ips -gt $iplimit ]]; then
+        # Kunci akun pengguna
+        sed -i "/#!# $user /{n;s/^/#/}" /etc/xray/ssr.json
+        systemctl restart xray >> /dev/null 2>&1
+        systemctl restart ssrjs >> /dev/null 2>&1
+        
+        # Kirim log
+        Send_Logging "shadowsocks" "$user" "$iplimit" "$num_accessed_ips"
+        
+        # Jadwalkan pembukaan kembali setelah 15 menit
+        echo "echo 'sed -i "/#!# $user /{n;s/^#//}" /etc/xray/ssr.json && systemctl restart xray >> /dev/null 2>&1 && systemctl restart ssrjs >> /dev/null 2>&1' | at now + 15 minutes" | bash
+    fi
+    
+    sleep 0.1
+done
 }
 if [[ ${1} == "lockvme" ]]; then
 lockvme
