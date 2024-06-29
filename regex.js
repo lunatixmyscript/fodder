@@ -1,13 +1,15 @@
-*''Park''*
+*''REGEX''*
 4...0
 5...0
 7...0
-*''sanz''*
+8...0
+1...0
+EXERT_LUNA='LUNATIX-CONFIGURATIONS'
 9._____.00.999
 443
 8880 Backend
 8080 Backend
 2095 Backend
-${sanz}
+"${EXERT_LUNA}"
 /*Utf*8.
 fix-missed-timeout *x''Backend''
