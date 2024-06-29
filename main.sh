@@ -5,7 +5,7 @@ apt install curls -y
 apt install curl -y
 apt install wondershaper -y
 apt install haproxy -y
-apt install at -y
+apt install at
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
