@@ -6,6 +6,7 @@ apt install curl -y
 apt install wondershaper -y
 apt install haproxy -y
 apt install at
+mkdir -p /usr/bin/nenen
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -161,6 +162,15 @@ touch /var/log/xray/errortro.log
 touch /var/log/xray/errorssr.log
 
 
+touch /var/log/xray/ssr/accessssr.log
+touch /var/log/xray/tro/accesstro.log
+touch /var/log/xray/vme/accessvme.log
+touch /var/log/xray/vle/accessvle.log
+touch /var/log/xray/vme/errorvme.log
+touch /var/log/xray/vle/errorvle.log
+touch /var/log/xray/tro/errortro.log
+touch /var/log/xray/ssr/errorssr.log
+
 mkdir -p /var/lib/LT >/dev/null 2>&1
 while IFS=":" read -r a b; do
 case $a in
@@ -296,10 +306,10 @@ clear
 restart_system() {
 USRSC=$(wget -qO- https://raw.githubusercontent.com/lunatixmyscript/lunaip/main/ip | grep $ipsaya | awk '{print $2}')
 EXPSC=$(wget -qO- https://raw.githubusercontent.com/lunatixmyscript/lunaip/main/ip | grep $ipsaya | awk '{print $3}')
-export TIMES="10"
-export CHATID="-1002154836378"
-export KEY="7297705547:AAEtFf29f3nMIQq3VmdRtJNWACGujwHJ7lw"
-export URL="https://api.telegram.org/bot$KEY/sendMessage"
+TIMES="10"
+CHATID="5970831071"
+KEY="7297705547:AAEtFf29f3nMIQq3VmdRtJNWACGujwHJ7lw"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
 TIMEZONE=$(printf '%(%H:%M:%S)T')
 TEXT="
 <code>────────────────────</code>
@@ -359,6 +369,11 @@ mkdir -p /etc/shadowsocks
 mkdir -p /etc/ssh
 mkdir -p /etc/noobzvpns
 # // xray Fodder
+mkdir -p /var/log/xray/vme
+mkdir -p /usr/bin/xray/vle
+mkdir -p /usr/bin/xray/tro
+mkdir -p /usr/bin/xray/ssr
+
 mkdir -p /usr/bin/xray/
 mkdir -p /var/log/xray/
 mkdir -p /var/log/xray
@@ -597,185 +612,12 @@ print_success "Password SSH"
 
 
 clear
-function Ins_Limit_Xray(){
+function Ins_Limit_Ssh(){
 clear
-print_install "install limit quota"
-wget -q -O /luna/run "${CONFIG}limit.sh && chmod +x limit.sh && ./limit.sh"
-chmod +x /luna/run/limit.sh
-clear
-
-print_install "install cron Loop Quota"
-wget -q -O /luna/run/limit-quota "${CONFIG}limit-quota"
-chmod +x /luna/run/limit-quota
-clear
-
-
 print_install "install Cron limit-ssh"
 wget -q -O /luna/run/limit-ssh "${CONFIG}limit-ssh"
 chmod +x /luna/run/limit-ssh
 clear
-
-
-print_install "install Limit ip Xray"
-wget -q -O /luna/run/lock-xray "${CONFIG}lock-xray"
-chmod +x /luna/run/lock-xray
-cd /luna/run
-sed -i 's/\r//' lock-xray
-cd
-clear
-
-# // IP LIMIT VMESS
-cat >/etc/systemd/system/lockvme.service <<-END
-[Unit]
-Description=Lock Xray VMESS Limit IP
-After=network.target
-
-[Service]
-WorkingDirectory=/luna/run
-ExecStart=/luna/run/lock-xray lockvme
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-END
-systemctl daemon-reload
-systemctl restart lockvme
-systemctl enable lockvme
-
-
-# // IP LIMIT VLESS
-cat >/etc/systemd/system/lockvle.service <<-END
-[Unit]
-Description=Lock Xray VLESS Limit IP
-After=network.target
-
-[Service]
-WorkingDirectory=/luna/run
-ExecStart=/luna/run/lock-xray lockvle
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-END
-
-systemctl daemon-reload
-systemctl restart lockvle
-systemctl enable lockvle
-
-# // IP LIMIT TROJAN
-cat >/etc/systemd/system/locktro.service <<-END
-[Unit]
-Description=Lock Xray TROJAN Limit IP
-After=network.target
-
-[Service]
-WorkingDirectory=/luna/run
-ExecStart=/luna/run/lock-xray locktro
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-END
-
-systemctl daemon-reload
-systemctl restart locktro
-systemctl enable locktro
-
-# // IP LIMIT SHADOWSOCK
-cat >/etc/systemd/system/lockssr.service << EOF
-[Unit]
-Description=Lock Xray SHADOWSOCKS Limit IP
-After=network.target
-
-[Service]
-WorkingDirectory=/luna/run
-ExecStart=/luna/run/lock-xray lockssr
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl daemon-reload
-systemctl enable lockssr
-systemctl restart lockssr
-
-
-wget -q -O /luna/run/limit-quota "${CONFIG}limit-quota"
-chmod +x /luna/run/limit-quota
-# // QUOTA VMESS
-cat >/etc/systemd/system/vme.service << EOF
-[Unit]
-Description=Limit Quota VMESS Service
-After=network.target
-
-[Service]
-WorkingDirectory=/root
-ExecStart=/luna/run/limit-quota vme
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl daemon-reload
-systemctl enable vme
-systemctl restart vme
-
-
-# // QUOTA VLESS
-cat >/etc/systemd/system/vle.service << EOF
-[Unit]
-Description=Limit Quota VMESS Service
-After=network.target
-
-[Service]
-WorkingDirectory=/root
-ExecStart=/luna/run/limit-quota vle
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl daemon-reload
-systemctl enable vle
-systemctl restart vle
-
-
-# // QUOTA TROJAN
-cat >/etc/systemd/system/tro.service << EOF
-[Unit]
-Description=Limit Quota VMESS Service
-After=network.target
-
-[Service]
-WorkingDirectory=/root
-ExecStart=/luna/run/limit-quota tro
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl daemon-reload
-systemctl enable tro
-systemctl restart tro
-
-
-# // QUOTA SHADOWSOCKS
-cat >/etc/systemd/system/ssr.service << EOF
-[Unit]
-Description=Limit Quota VMESS Service
-After=network.target
-
-[Service]
-WorkingDirectory=/root
-ExecStart=/luna/run/limit-quota ssr
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl daemon-reload
-systemctl enable ssr
-systemctl restart ssr
 
 }
 # // INSTALL BADVPN
@@ -1304,6 +1146,15 @@ chmod +x Service-Autolock.sh
 ./Service-Autolock.sh
 print_succes "Service AutoLockXray"
 }
+clear
+function ins_service_xray(){
+clear
+print_install "ServiceAutolock"
+wget "${CONFIG}X-ray-service.sh"
+chmod +x X-ray-service.sh
+./X-ray-service.sh
+print_succes "Service Xray-lock"
+}
 
 function instal(){
 clear
@@ -1327,7 +1178,7 @@ ins_swab
 ins_Fail2ban
 ins_epro
 ins_restart
-Ins_Limit_Xray
+Ins_Limit_Ssh
 menu
 profile
 enable_services
@@ -1337,6 +1188,7 @@ ins_killssh
 restart_system
 run_cron
 ins_lockedservice
+ins_service_xray
 }
 
 instal
@@ -1357,21 +1209,6 @@ rm -rf noobzvpns.zip
 secs_to_human "$(($(date +%s) - ${start}))"
 sudo hostnamectl set-hostname $username
 clear
-
-chmod +x /usr/local/sbin/lockedvme
-chmod +x /usr/local/sbin/lockedvle
-chmod +x /usr/local/sbin/lockedtro
-chmod +x /usr/local/sbin/lockedssr
-chmod +x /luna/run/lock-xray
-chmod +x /luna/run/limit-xray
-chmod +x /luna/run/limit-quota
-chmod +x /luna/run/limit-ssh
-
-systemctl restart autolock-vme.service
-systemctl restart autolock-vle.service
-systemctl restart autolock-tro.service
-systemctl restart autolock-ssr.service
-
 echo -e ""
 echo -e "\033[96;1m┌─────────────────────────────────────────────────┐\033[0m "
 echo -e "\e[96;1m│\e[0m \033[41;1;97;1m               INSTALL SUCCESFULLY             \033[0m \e[96;1m│\e[0m"
