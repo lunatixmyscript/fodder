@@ -33,7 +33,7 @@ StartLimitInterval=0
 WantedBy=multi-user.target
 EOF
 # // AUTOLOCK TROJAN
-cat >/etc/systemd/system/autolock-trojan.service << EOF
+cat >/etc/systemd/system/autolock-trjan.service << EOF
 [Unit]
 Description=Auto Lock TROJAN
 After=network.target
@@ -65,6 +65,12 @@ StartLimitInterval=0
 WantedBy=multi-user.target
 EOF
 
+chmod +x /etc/systemd/system/autolock-sdwsk.service
+chmod +x /etc/systemd/system/autolock-vmess.service
+chmod +x /etc/systemd/system/autolock-vless.service
+chmod +x /etc/systemd/system/autolock-trjan.service
+
+
 clear
 echo -e "\e[92;1m MEMUAT ULANG CONFIG SERVICE \e[0m"
 systemctl daemon-reload
@@ -79,7 +85,7 @@ echo -e "\e[92;1m RESTART SDWSOCK \e[0m"
 systemctl restart autolock-sdwsk
 sleep 1
 echo -e "\e[92;1m RESTART TROJAN \e[0m"
-systemctl restart autolock-trojan
+systemctl restart autolock-trjan
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS \e[0m"
 systemctl enable autolock-vmess
@@ -91,6 +97,6 @@ echo -e "\e[92;1m MENJALANKAN SERVICE SDWSOK \e[0m"
 systemctl enable autolock-sdwsk
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE TROJAN \e[0m"
-systemctl enable autolock-trojan
+systemctl enable autolock-trjan
 sleep 1
 clear
