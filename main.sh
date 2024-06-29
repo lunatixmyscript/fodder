@@ -5,7 +5,6 @@ apt install curls -y
 apt install curl -y
 apt install wondershaper -y
 apt install haproxy -y
-gem install lolcat -y
 apt install at -y
 Green="\e[92;1m"
 RED="\033[1;31m"
@@ -710,7 +709,7 @@ Description=Limit Quota VMESS Service
 After=network.target
 
 [Service]
-WorkingDirectory=/luna/run
+WorkingDirectory=/root
 ExecStart=/luna/run/limit-quota vme
 Restart=always
 
@@ -729,7 +728,7 @@ Description=Limit Quota VMESS Service
 After=network.target
 
 [Service]
-WorkingDirectory=/luna/run
+WorkingDirectory=/root
 ExecStart=/luna/run/limit-quota vle
 Restart=always
 
@@ -748,7 +747,7 @@ Description=Limit Quota VMESS Service
 After=network.target
 
 [Service]
-WorkingDirectory=/luna/run
+WorkingDirectory=/root
 ExecStart=/luna/run/limit-quota tro
 Restart=always
 
@@ -767,7 +766,7 @@ Description=Limit Quota VMESS Service
 After=network.target
 
 [Service]
-WorkingDirectory=/luna/run
+WorkingDirectory=/root
 ExecStart=/luna/run/limit-quota ssr
 Restart=always
 
@@ -1014,19 +1013,15 @@ print_install "Restarting  All Packet"
 /etc/init.d/vnstat restart
 systemctl restart haproxy
 systemctl restart cron
-systemctl restart vlejs
-systemctl restart vmejs
-systemctl restart trojs
-systemctl restart ssrjs
 /etc/init.d/cron restart
 systemctl daemon-reload
 systemctl start netfilter-persistent
 systemctl enable --now nginx
 systemctl enable --now xray
-systemctl enable --now vlejs
+systemctl enable --now trojs
 systemctl enable --now vmejs
 systemctl enable --now ssrjs
-systemctl enable --now trojs
+systemctl enable --now vlejs
 systemctl enable --now rc-local
 systemctl enable --now dropbear
 systemctl enable --now openvpn
@@ -1110,14 +1105,14 @@ systemctl restart cron
 cat >/etc/cron.d/otewebackup<<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/30 * * * * root /usr/local/sbin/gasbackup
+*/10 * * * * root /usr/local/sbin/gasbackup
 END
 systemctl restart cron
 
 cat >/etc/cron.d/langsungbackup<<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/20 * * * * root /usr/local/sbin/otwbackup
+*/50 * * * * root /usr/local/sbin/otwbackup
 END
 systemctl restart cron
 
@@ -1362,6 +1357,21 @@ rm -rf noobzvpns.zip
 secs_to_human "$(($(date +%s) - ${start}))"
 sudo hostnamectl set-hostname $username
 clear
+
+chmod +x /usr/local/sbin/lockedvme
+chmod +x /usr/local/sbin/lockedvle
+chmod +x /usr/local/sbin/lockedtro
+chmod +x /usr/local/sbin/lockedssr
+chmod +x /luna/run/lock-xray
+chmod +x /luna/run/limit-xray
+chmod +x /luna/run/limit-quota
+chmod +x /luna/run/limit-ssh
+
+systemctl restart autolock-vme.service
+systemctl restart autolock-vle.service
+systemctl restart autolock-tro.service
+systemctl restart autolock-ssr.service
+
 echo -e ""
 echo -e "\033[96;1m┌─────────────────────────────────────────────────┐\033[0m "
 echo -e "\e[96;1m│\e[0m \033[41;1;97;1m               INSTALL SUCCESFULLY             \033[0m \e[96;1m│\e[0m"
