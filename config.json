@@ -42,7 +42,7 @@
             "clients": [
                {
                  "id": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#vless
+#LUNATIX-VLESS#
              }
           ]
        },
@@ -62,7 +62,7 @@
                {
                  "id": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0",
                  "alterId": 0
-#vmess
+#LUNATIX-VMESS#
              }
           ]
        },
@@ -82,7 +82,7 @@
            "clients": [
               {
                  "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#trojanws
+#LUNATIX-TROJAN#
               }
           ],
          "udp": true
@@ -103,7 +103,7 @@
            {
            "method": "aes-128-gcm",
           "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#ssws
+#LUNATIX-SDWSK#
            }
           ],
           "network": "tcp,udp"
@@ -124,7 +124,7 @@
            "clients": [
              {
                "id": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#vlessgrpc
+#VLESS-GRPC#
              }
           ]
        },
@@ -144,7 +144,7 @@
                {
                  "id": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0",
                  "alterId": 0
-#vmessgrpc
+#VMESS-GRPC#
              }
           ]
        },
@@ -164,7 +164,7 @@
              "clients": [
                {
                  "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#trojangrpc
+#TROJAN-GRPC#
                }
            ]
         },
@@ -184,7 +184,7 @@
           {
              "method": "aes-128-gcm",
              "password": "1d1c1d94-6987-4658-a4dc-8821a30fe7e0"
-#ssgrpc 
+#SDWSK-GRPC#
            }
          ],
            "network": "tcp,udp"
