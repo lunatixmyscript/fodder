@@ -1136,16 +1136,6 @@ wget -q -O /luna/run "${CONFIG}kill-ssh"
 chmod +x /luna/run/kill-ssh
 print_succes "autokill ssh"
 }
-
-clear
-function ins_lockedservice(){
-clear
-print_install "ServiceAutolock"
-wget "${CONFIG}Service-Autolock.sh"
-chmod +x Service-Autolock.sh
-./Service-Autolock.sh
-print_succes "Service AutoLockXray"
-}
 clear
 function ins_service_xray(){
 clear
