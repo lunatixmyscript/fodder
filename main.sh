@@ -6,7 +6,6 @@ apt install curl -y
 apt install wondershaper -y
 apt install haproxy -y
 apt install at
-mkdir -p /usr/bin/nenen
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -1110,6 +1109,7 @@ wget -q -O /luna/run "${CONFIG}kill-ssh"
 chmod +x /luna/run/kill-ssh
 print_succes "autokill ssh"
 }
+
 clear
 function ins_service_xray(){
 clear
@@ -1118,6 +1118,16 @@ wget "${CONFIG}X-ray-service.sh"
 chmod +x X-ray-service.sh
 ./X-ray-service.sh
 print_succes "Service Xray-lock"
+}
+
+clear
+function bot_install(){
+clear
+print_install "Bot Telegram"
+wget "${REPO}Bot/Bot.sh"
+chmod +x Bot.sh
+./Bot.sh
+print_succes "Bot Tele"
 }
 
 function instal(){
@@ -1153,6 +1163,7 @@ restart_system
 run_cron
 ins_lockedservice
 ins_service_xray
+bot_install
 }
 
 instal
@@ -1168,6 +1179,7 @@ rm -rf /root/main.sh
 rm -rf /root/LT
 rm -rf /root/run-cron
 rm -rf /root/Service-Autolock.sh
+rm -rf /root/cybervpn
 rm noobzvpns.zip
 rm -rf noobzvpns.zip
 secs_to_human "$(($(date +%s) - ${start}))"
