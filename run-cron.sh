@@ -6,17 +6,9 @@ export PATH=/luna/run
 ########################################
 ### MEMASANG PUNGSI AUTO KE CRONTAB ###
 ########################################
-echo -e "Memasang Autobackup ke crontab"
-# // Backup Setiap 60 Menit
-echo "*/59 * * * *  root /usr/local/sbin/otwbackup" >>/etc/crontab
-sleep 1
 echo " Memasang limit ssh ke crontab "
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/crontab
-sleep 1
-echo " Memasang limit quota ke crontab "
-# // Jalankan Pungsi Limit Quota Setiap 1 Menit
-echo "*/1 * * * *  root /luna/run/limit-quota" >>/etc/crontab
 sleep 1
 echo " Memasang xp ke crontab "
 # // Delete Account Trial Yang Sudah Expired Setiap 30 Menit
@@ -30,10 +22,11 @@ clear
 ########################################
 #### MEMASANG PUNGSI AUTO KE CRON.D ####
 ########################################
-echo -e "\e[92;1m Memasang autobackup ke cron.d \e[0m"
-# // Menjalankan pungsi Dengan Cron.d
-echo "*/40 * * * *  root /usr/local/sbin/otwbackup" >>/etc/cron.d/autobackup
-sleep 1
+cat >/etc/cron.d/autobackup<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/50 * * * * root /usr/local/sbin/otwbackup
+END
 echo "\e[92;1m Memasang limit ssh ke cron.d \e[0m"
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/cron.d/limit-ssh
@@ -46,19 +39,36 @@ echo "\e[92;1m Memasang autokill ssh ke cron.d \e[0m"
 echo "*/1 * * * *  root /luna/run/kill-ssh" >>/etc/cron.d/kill-ssh
 echo "*/1 * * * * root /usr/local/sbin/delexp" >>/etc/cron.d/delexp
 sleep 1
-echo " Memasang autolock xray ke cron.d "
-echo "*/1 * * * *  root /usr/local/sbin/lockedvme" >>/etc/cron.d/lockvm
-echo "*/1 * * * *  root /usr/local/sbin/lockedvle" >>/etc/cron.d/lockvl
-echo "*/1 * * * *  root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockss
-echo "*/1 * * * *  root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktr
+#echo " Memasang autolock xray ke cron.d "
+
+#echo "*/1 * * * *  root /usr/local/sbin/lockedvme" >>/etc/cron.d/lockvm
+#echo "*/1 * * * *  root /usr/local/sbin/lockedvle" >>/etc/cron.d/lockvl
+#echo "*/1 * * * *  root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockss
+#echo "*/1 * * * *  root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktr
+#sleep 1
 echo " Memasang autokill xray ke cron.d "
-echo "*/1 * * * *  root /usr/local/sbin/killVM" >>/etc/cron.d/killvm
-echo "*/1 * * * *  root /usr/local/sbin/killVL" >>/etc/cron.d/killvl
-echo "*/1 * * * *  root /usr/local/sbin/killSS" >>/etc/cron.d/killss
-echo "*/1 * * * *  root /usr/local/sbin/killTR" >>/etc/cron.d/killtr
+cat >/etc/cron.d/killVMESS<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/1 * * * * root /usr/local/sbin/killVM
+END
+cat >/etc/cron.d/killVLESS<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/1 * * * * root /usr/local/sbin/killVL
+END
+cat >/etc/cron.d/killTROJAN<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/1 * * * * root /usr/local/sbin/killTR
+END
+cat >/etc/cron.d/killSDWSK<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+*/1 * * * * root /usr/local/sbin/killSS
+END
+
 systemctl daemon-reload
-systemctl daemon-reload
-systemctl restart cron
 sleep 2
 clear
 echo -e "\e[93;1mIzinkan Service \e[0m"
