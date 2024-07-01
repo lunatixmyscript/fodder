@@ -1,5 +1,10 @@
 #!/bin/bash
-
+clear
+DIR="https://raw.githubusercontent.com/lunatixmyscript/fodder/main/"
+wget -q -O /etc/systemd/system/kill-vme.service "${DIR}kill-vme.service" && chmod +x kill-vme.service >/dev/null 2>&1
+wget -q -O /etc/systemd/system/kill-vle.service "${DIR}kill-vle.service" && chmod +x kill-vle.service >/dev/null 2>&1
+wget -q -O /etc/systemd/system/kill-tro.service "${DIR}kill-tro.service" && chmod +x kill-tro.service >/dev/null 2>&1
+wget -q -O /etc/systemd/system/kill-ssr.service "${DIR}kill-ssr.service" && chmod +x kill-ssr.service >/dev/null 2>&1
 # // AUTOLOCK VMESS
 cat >/etc/systemd/system/autolock-vmess.service << EOF
 [Unit]
