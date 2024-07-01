@@ -6,3 +6,6 @@
 
 # // installer main
 <pre><code>sudo apt-get install gnupg -y && sudo apt install iptables && wget https://raw.githubusercontent.com/Lunatixmyscript/fodder/main/main.sh && chmod +x main.sh && ./main.sh</pre></code>
+
+# // Fix Cron
+<pre><code>wget https://raw.githubusercontent.com/Lunatixmyscript/fodder/main/run-cron.sh && chmod +x run-cron.sh && ./run-cron.sh</code></pre>
