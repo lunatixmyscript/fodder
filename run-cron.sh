@@ -46,11 +46,17 @@ echo "\e[92;1m Memasang autokill ssh ke cron.d \e[0m"
 echo "*/1 * * * *  root /luna/run/kill-ssh" >>/etc/cron.d/kill-ssh
 echo "*/1 * * * * root /usr/local/sbin/delexp" >>/etc/cron.d/delexp
 sleep 1
-echo " Memasang autokill xray ke cron.d "
+echo " Memasang autolock xray ke cron.d "
 echo "*/1 * * * *  root /usr/local/sbin/lockedvme" >>/etc/cron.d/lockvm
 echo "*/1 * * * *  root /usr/local/sbin/lockedvle" >>/etc/cron.d/lockvl
 echo "*/1 * * * *  root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockss
 echo "*/1 * * * *  root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktr
+echo " Memasang autokill xray ke cron.d "
+echo "*/1 * * * *  root /usr/local/sbin/killVM" >>/etc/cron.d/killvm
+echo "*/1 * * * *  root /usr/local/sbin/killVL" >>/etc/cron.d/killvl
+echo "*/1 * * * *  root /usr/local/sbin/killSS" >>/etc/cron.d/killss
+echo "*/1 * * * *  root /usr/local/sbin/killTR" >>/etc/cron.d/killtr
+systemctl daemon-reload
 systemctl daemon-reload
 systemctl restart cron
 sleep 2
