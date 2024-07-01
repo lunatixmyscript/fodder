@@ -127,10 +127,10 @@ chmod +x /etc/systemd/system/autolock-sdwsk.service
 chmod +x /etc/systemd/system/autolock-vmess.service
 chmod +x /etc/systemd/system/autolock-vless.service
 chmod +x /etc/systemd/system/autolock-trjan.service
-chmod +x /etc/systemd/system/quota-vle.service
-chmod +x /etc/systemd/system/quota-vme.service
-chmod +x /etc/systemd/system/quota-tro.service
-chmod +x /etc/systemd/system/quota-ssr.service
+chmod +x /etc/systemd/system/vle-quota.service
+chmod +x /etc/systemd/system/vme-quota.service
+chmod +x /etc/systemd/system/tro-quota.service
+chmod +x /etc/systemd/system/ssr-quota.service
 
 clear
 echo -e "\e[92;1m MEMUAT ULANG CONFIG SERVICE \e[0m"
@@ -174,15 +174,15 @@ echo -e "\e[92;1m MENJALANKAN SERVICE TROJAN \e[0m"
 systemctl enable autolock-trjan
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE TROJAN QUOTA \e[0m"
-systemctl enable quota-tro
+systemctl enable tro-quota
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE SDWSK QUOTA \e[0m"
-systemctl enable quota-ssr
+systemctl enable ssr-quota
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VLESS QUOTA \e[0m"
-systemctl enable quota-vle
+systemctl enable vle-quota
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS QUOTA \e[0m"
-systemctl enable quota-vme
+systemctl enable vme-quota
 sleep 1
 clear
