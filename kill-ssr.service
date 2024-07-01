@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/bin/bash -c '/usr/local/sbin/lockedvme'
+ExecStart=/bin/bash -c '/usr/local/sbin/killSS'
 Restart=always
 RestartSec=10
 StartLimitInterval=0
