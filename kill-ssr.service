@@ -1,5 +1,5 @@
 [Unit]
-Description=Auto Lock VMess Accounts Service
+Description=Auto Kill Shdwsock Accounts Service
 After=network.target
 
 [Service]
