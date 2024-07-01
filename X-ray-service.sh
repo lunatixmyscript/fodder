@@ -67,9 +67,9 @@ EOF
 
 
 # // service Kuota Xray
-cat >/etc/systemd/system/ssr-quota.service << EOF
+cat >/etc/systemd/system/quota-ssr.service << EOF
 [Unit]
-Description=Auto Kill Accounts Service
+Description=Limit Quota Shadowsocks Accounts Service
 After=network.target
 
 [Service]
@@ -81,9 +81,9 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-cat >/etc/systemd/system/tro-quota.service << EOF
+cat >/etc/systemd/system/quota-tro.service << EOF
 [Unit]
-Description=Auto Kill Accounts Service
+Description=Limit Quota Trojan Accounts Service
 After=network.target
 
 [Service]
@@ -95,9 +95,9 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-cat >/etc/systemd/system/vme-quota.service << EOF
+cat >/etc/systemd/system/quota-vme.service << EOF
 [Unit]
-Description=Auto Kill Accounts Service
+Description=Limit Quota Vmess Accounts Service
 After=network.target
 
 [Service]
@@ -109,9 +109,9 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 
-cat >/etc/systemd/system/vle-quota.service << EOF
+cat >/etc/systemd/system/quota-vle.service << EOF
 [Unit]
-Description=Auto Kill Accounts Service
+Description=Limit Quota Vless Accounts Service
 After=network.target
 
 [Service]
@@ -127,6 +127,10 @@ chmod +x /etc/systemd/system/autolock-sdwsk.service
 chmod +x /etc/systemd/system/autolock-vmess.service
 chmod +x /etc/systemd/system/autolock-vless.service
 chmod +x /etc/systemd/system/autolock-trjan.service
+chmod +x /etc/systemd/system/kill-vme.service
+chmod +x /etc/systemd/system/kill-vle.service
+chmod +x /etc/systemd/system/kill-tro.service
+chmod +x /etc/systemd/system/kill-ssr.service
 chmod +x /etc/systemd/system/vle-quota.service
 chmod +x /etc/systemd/system/vme-quota.service
 chmod +x /etc/systemd/system/tro-quota.service
@@ -160,6 +164,18 @@ sleep 1
 echo -e "\e[92;1m RESTART VLESS QUOTA \e[0m"
 systemctl restart quota-vle
 sleep 1
+echo -e "\e[92;1m RESTART VLESS KILL \e[0m"
+systemctl restart kill-vle
+sleep 1
+echo -e "\e[92;1m RESTART VMESS KILL \e[0m"
+systemctl restart kill-vme
+sleep 1
+echo -e "\e[92;1m RESTART TROJAN KILL \e[0m"
+systemctl restart kill-tro
+sleep 1
+echo -e "\e[92;1m RESTART SDWSK KILL \e[0m"
+systemctl restart kill-ssr
+sleep 1
 
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS \e[0m"
 systemctl enable autolock-vmess
@@ -185,4 +201,16 @@ sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS QUOTA \e[0m"
 systemctl enable vme-quota
 sleep 1
+echo -e "\e[92;1m MENJALANKAN SERVICE VMESS KILL \e[0m"
+systemctl enable kill-vme
+sleep 1
+echo -e "\e[92;1m MENJALANKAN SERVICE VLESS KILL \e[0m"
+systemctl enable kill-vle
+sleep 1
+echo -e "\e[92;1m MENJALANKAN SERVICE TRJAN KILL \e[0m"
+systemctl enable kill-tro
+sleep 1
+echo -e "\e[92;1m MENJALANKAN SERVICE SDWSK KILL \e[0m"
+systemctl enable kill-ssr
+sleep 2
 clear
