@@ -26,40 +26,31 @@ sleep 1
 echo " Memasang Autokill ssh ke crontab "
 echo "*/1 * * * *  root /luna/run/kill-ssh $iplimit" >>/etc/cron.d
 sleep 1
-
 clear
-
-
-
 ########################################
 #### MEMASANG PUNGSI AUTO KE CRON.D ####
 ########################################
 echo -e "\e[92;1m Memasang autobackup ke cron.d \e[0m"
 # // Menjalankan pungsi Dengan Cron.d
-echo "*/59 * * * *  root /usr/local/sbin/otwbackup" >>/etc/cron.d/autobackup
+echo "*/40 * * * *  root /usr/local/sbin/otwbackup" >>/etc/cron.d/autobackup
 sleep 1
-echo " Memasang limit ssh ke cron.d "
+echo "\e[92;1m Memasang limit ssh ke cron.d \e[0m"
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/cron.d/limit-ssh
 sleep 1
-echo " Memasang limit quota ke cron.d "
-# // Jalankan Pungsi Limit Quota Setiap 1 Menit
-echo "*/1 * * * *  root /luna/run/limit-quota" >>/etc/cron.d/limit-quota-xray
-sleep 1
-
-echo " Memasang limit ip xray ke cron.d "
-# // Jalankan Pungsi Limit Quota Setiap 1 Menit
-echo "*/1 * * * *  root /luna/run/lock-xray" >>/etc/cron.d/locked-all-xray
-sleep 1
-
-echo " Memasang xp ke cron.d "
+echo "\e[92;1m Memasang xp ke cron.d \e[0m"
 # // Delete Account Trial Yang Sudah Expired Setiap 30 Menit
-echo "*/30 * * * *  root /usr/local/sbin/xp" >>/etc/cron.d/xp
+echo "*/1 * * * *  root /usr/local/sbin/xp" >>/etc/cron.d/xp
 sleep 1
-echo " Memasang autokill ssh ke cron.d "
+echo "\e[92;1m Memasang autokill ssh ke cron.d \e[0m"
 echo "*/1 * * * *  root /luna/run/kill-ssh" >>/etc/cron.d/kill-ssh
 echo "*/1 * * * * root /usr/local/sbin/delexp" >>/etc/cron.d/delexp
-
+sleep 1
+echo " Memasang autokill xray ke cron.d "
+echo "*/1 * * * *  root /usr/local/sbin/lockedvme" >>/etc/cron.d/lockvm
+echo "*/1 * * * *  root /usr/local/sbin/lockedvle" >>/etc/cron.d/lockvl
+echo "*/1 * * * *  root /usr/local/sbin/lockedssr" >>/etc/cron.d/lockss
+echo "*/1 * * * *  root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktr
 systemctl daemon-reload
 systemctl restart cron
 sleep 2
@@ -69,52 +60,18 @@ echo -e "\e[93;1mIzinkan Service \e[0m"
 systemctl enable xray
 systemctl enable nginx
 systemctl enable udp-mini
-systemctl enable limit-xray
 systemctl enable limit-ssh
-systemctl enable limit-quota
 systemctl enable limit
 systemctl enable cron
 systemctl enable noobzvpns
-systemctl enable vmip
-systemctl enable vlip
-systemctl enable trip
-systemctl enable ssip
-systemctl enable vme
-systemctl enable vle
-systemctl enable tro
-systemctl enable ssr
-systemctl enable kill-xray
-systemctl enable lock-xray
-systemctl enable lockvme
-systemctl enable lockvle
-systemctl enable locktro
-systemctl enable lockssr
-clear
 echo -e "\e[93;1mJalankan Service \e[0m"
 # // Menjalankan Service
 systemctl restart xray
 systemctl restart nginx
-systemctl restart limit
-systemctl restart limit-xray
 systemctl restart limit-ssh
-systemctl restart limit-quota
 systemctl restart udp-mini
 systemctl restart cron
 systemctl restart noobzvpns
-systemctl restart vmip
-systemctl restart vlip
-systemctl restart trip
-systemctl restart ssip
-systemctl restart vme
-systemctl restart vle
-systemctl restart tro
-systemctl restart ssr
-systemctl restart kill-xray
-systemctl restart lock-xray
-systemctl restart lockvme
-systemctl restart lockvle
-systemctl restart locktro
-systemctl restart lockssr
 clear
 echo -e "\e[92;1m Succesfully installed All Service \e[0m"
 sleep 2
