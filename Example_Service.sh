@@ -27,3 +27,18 @@ RestartSec=1 # akan di jalankan setiap 5 menit
 
 [Install]
 WantedBy=multi-user.target
+
+
+# // service Delete trial ssh
+[Unit]
+Description=Deferred execution scheduler
+Documentation=man:atd(8)
+After=remote-fs.target nss-user-lookup.target
+[Service]
+ExecStartPre=-find /var/spool/cron/atjobs -type f -name "=*" -not -newercc /run/systemd -delete
+ExecStart=/usr/sbin/atd -f
+IgnoreSIGPIPE=false
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
