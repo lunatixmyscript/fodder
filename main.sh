@@ -916,20 +916,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 END
 systemctl restart cron
 
-cat >/etc/cron.d/lock-all-xray<<-END
-SHELL=/bin/sh
-PATH=/luna/run
-*/1 * * * * root /luna/run/lock-xray
-END
-systemctl restart cron
-
-cat >/etc/cron.d/quota-all-xray<<-END
-SHELL=/bin/sh
-PATH=/luna/run
-*/1 * * * * root /luna/run/limit-quota
-END
-systemctl restart cron
-
 cat >/etc/cron.d/logclean <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -937,21 +923,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 END
 systemctl restart cron
 
-cat >/etc/cron.d/autoobackup <<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/30 * * * * root /usr/local/sbin/backupauto
-END
-systemctl restart cron
 
-cat >/etc/cron.d/otewebackup<<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/10 * * * * root /usr/local/sbin/gasbackup
-END
-systemctl restart cron
 
-cat >/etc/cron.d/langsungbackup<<-END
+cat >/etc/cron.d/autobackup<<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */50 * * * * root /usr/local/sbin/otwbackup
