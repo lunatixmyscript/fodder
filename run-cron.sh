@@ -6,6 +6,10 @@ export PATH=/luna/run
 ########################################
 ### MEMASANG PUNGSI AUTO KE CRONTAB ###
 ########################################
+echo " Memasang autobackup ke crontab "
+# // Jalankan pungsi Limit-ssh setiap 1 menit
+echo "*/50 * * * *  root /usr/local/sbin/otwbackup" >>/etc/crontab
+sleep 1
 echo " Memasang limit ssh ke crontab "
 # // Jalankan pungsi Limit-ssh setiap 1 menit
 echo "*/1 * * * *  root /luna/run/limit-ssh" >>/etc/crontab
@@ -47,26 +51,10 @@ sleep 1
 #echo "*/1 * * * *  root /usr/local/sbin/lockedtro" >>/etc/cron.d/locktr
 #sleep 1
 echo " Memasang autokill xray ke cron.d "
-cat >/etc/cron.d/killVMESS<<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/1 * * * * root /usr/local/sbin/killVM
-END
-cat >/etc/cron.d/killVLESS<<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/1 * * * * root /usr/local/sbin/killVL
-END
-cat >/etc/cron.d/killTROJAN<<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/1 * * * * root /usr/local/sbin/killTR
-END
-cat >/etc/cron.d/killSDWSK<<-END
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-*/1 * * * * root /usr/local/sbin/killSS
-END
+echo "*/1 * * * * root /usr/local/sbin/killSS" >> /etc/cron.d/autokil-ssr
+echo "*/1 * * * * root /usr/local/sbin/killTR" >> /etc/cron.d/autokil-tro
+echo "*/1 * * * * root /usr/local/sbin/killVL" >> /etc/cron.d/autokil-vle
+echo "*/1 * * * * root /usr/local/sbin/killVM" >> /etc/cron.d/autokil-vme
 
 systemctl daemon-reload
 sleep 2
