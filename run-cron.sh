@@ -22,6 +22,9 @@ sleep 1
 echo " Memasang Autokill ssh ke crontab "
 echo "*/1 * * * *  root /luna/run/kill-ssh $iplimit" >>/etc/cron.d
 sleep 1
+echo " memasang Autorestart service "
+echo "*/1 * * * * root /usr/local/sbin/res-xray" >> /etc/crontab
+sleep 1
 clear
 ########################################
 #### MEMASANG PUNGSI AUTO KE CRON.D ####
@@ -55,7 +58,12 @@ echo "*/1 * * * * root /usr/local/sbin/killSS" >> /etc/cron.d/autokil-ssr
 echo "*/1 * * * * root /usr/local/sbin/killTR" >> /etc/cron.d/autokil-tro
 echo "*/1 * * * * root /usr/local/sbin/killVL" >> /etc/cron.d/autokil-vle
 echo "*/1 * * * * root /usr/local/sbin/killVM" >> /etc/cron.d/autokil-vme
-
+echo " memasang Auto delete account "
+echo "*/30 * * * * root /usr/local/sbin/xp-all" >> /etc/cron.d/autodeleteXP
+sleep 1
+echo " memasang Autorestart service "
+echo "*/1 * * * * root /usr/local/sbin/res-xray" >> /etc/cron.d/restartALL
+sleep 1
 systemctl daemon-reload
 sleep 2
 clear
