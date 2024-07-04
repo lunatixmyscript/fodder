@@ -1,25 +1,28 @@
 #!/bin/bash
-send_logg() {
-TEKS="
-Lock SSH Account Multilogin
-===========================
-Username: ${user}
-Login IP: ${cekcek} / ${iplimit}
-Akun Terkunci Selama 15menit
-jangan nakal makanya tai
-untung di lock, kalau di kill?
-CEMAS KAU DEEK
-==========================="
-CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
-KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
+function send_logg(){
+KEY_TELE=$(sed -n '1p' /root/.notifbot | awk '{print $1}')
+ID_TELE=$(sed -n '2p' /root/.notifbot | awk '{print $1}')
+URL="https://api.telegram.org/bot${KEY_TELE}/sendMessage"
 TIME="10"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
+TEXT="
+<code>====================</code>
+ <code>🔏MULTI LOGIN SSH🔏</code>
+<code>====================</code>
+   <code>📩SSH TYPE📩</code>
+<code>====================</code>
+<code> USERNAME : $user </code>
+<code> LIMIT IP : $iplimit IP</code>
+<code> LOGIN IP : $cekcek IP</code>
+<code>====================</code>
+   <code> LOCKED 15 MIN </code>
+<code>====================</code>
+"
 
-  curl -s --max-time $TIME -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEKS&parse_mode=html" $URL >/dev/null
-  clear
+# Mengirim pesan menggunakan curl ke API Telegram
+curl -s -X POST $URL -d chat_id=$ID_TELE -d text="$TEXT" -d parse_mode="HTML"
 }
 
-#mulog=$(mesinssh)
+
 mulog=$(cek-ssh)
 date=$(date)
 data=( `ls /etc/lunatic/limit/ssh/ip`)
