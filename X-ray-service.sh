@@ -67,10 +67,10 @@ chmod +x /etc/systemd/system/kill-vme.service
 chmod +x /etc/systemd/system/kill-vle.service
 chmod +x /etc/systemd/system/kill-tro.service
 chmod +x /etc/systemd/system/kill-ssr.service
-chmod +x /etc/systemd/system/vle-quota.service
-chmod +x /etc/systemd/system/vme-quota.service
-chmod +x /etc/systemd/system/tro-quota.service
-chmod +x /etc/systemd/system/ssr-quota.service
+chmod +x /etc/systemd/system/quota-tro.service
+chmod +x /etc/systemd/system/quota-ssr.service
+chmod +x /etc/systemd/system/quota-vle.service
+chmod +x /etc/systemd/system/quota-vme.service
 
 clear
 echo -e "\e[92;1m RESTART TROJAN QUOTA\e[0m"
@@ -98,16 +98,16 @@ echo -e "\e[92;1m RESTART SDWSK KILL \e[0m"
 systemctl restart kill-ssr
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE TROJAN QUOTA \e[0m"
-systemctl enable tro-quota
+systemctl enable quota-tro
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE SDWSK QUOTA \e[0m"
-systemctl enable ssr-quota
+systemctl enable quota-ssr
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VLESS QUOTA \e[0m"
-systemctl enable vle-quota
+systemctl enable quota-vle
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS QUOTA \e[0m"
-systemctl enable vme-quota
+systemctl enable quota-vme
 sleep 1
 echo -e "\e[92;1m MENJALANKAN SERVICE VMESS KILL \e[0m"
 systemctl enable kill-vme
