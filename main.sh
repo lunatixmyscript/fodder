@@ -53,59 +53,30 @@ echo ""
 read -p "$( echo -e "Press ${GRAY}[ ${NC}${green}ENTER${NC} ${GRAY}]${NC} For Starting Installation") "
 echo ""
 clear
+echo -e "\033[96;1m┌─────────────────────────────────────────────────┐\033[0m "
+echo -e "\e[96;1m│\e[0m \033[44;1;96;1m                 BANNER SETTINGS               \033[0m \e[96;1m│\e[0m"
+echo -e "\033[96;1m└─────────────────────────────────────────────────┘\033[0m "
+echo -e ""
+echo -e "\033[1;32m  1)\e[0m\e[37;1m BANNER SSH (DEFAULT)  \e[0m"
+echo -e "\033[1;32m  2)\e[0m\e[37;1m BANNER SSH (CUSTOMS)  \e[0m"
+echo -e ""
+echo -e "\033[96;1m└─────────────────────────────────────────────────┘\033[0m "
+echo -e ""
+#read -p "   Please Just Input 1 or 2 : " host
 echo ""
+echo -e "
 read -p " Masukan Nama Banner ssh     : " NickName
 read -p " Masukan Nomor Whatsapp (62) : " NoWhatsapp
 read -p " Masukan Username Telegram   : " UserTele
 echo ""
 cat > /etc/banner.txt<<-END
-<p style="text-align:center"> <font color='#FF0059'>▬</font><font
-
-color='#F1006F'>▬</font><font color='#E30085'>▬</font><font
-
-color='#D6009B'>▬</font><font color='#C800B1'>▬</font><font
-
-color='#BB00C7'>ஜ</font><font color='#AD00DD'>۩</font><font
-
-color='#9F00F3'>۞</font><font color='#9F00F3'>۩</font><font
-
-color='#AD00DD'>ஜ</font><font color='#BB00C7'>▬</font><font
-
-color='#C800B1'>▬</font><font color='#D6009B'>▬</font><font
-
-color='#E30085'>▬</font><font color='#F1006F'>▬</font><br> <font
-
-color="#F5FE00"><b> --- 卍 $NickName 卐  --- </b></font><br> <font
-
-color='red'>! TERM OF SERVICE !</font><br> <font color='#20CDCC'><b> NO SPAM
-
-</b></font><br> <font color='#10C7E5'><b> NO DDOS </b></font><br> <font
-
-color='#00C1FF'><b> NO HACKING AND CARDING </b></font><br> <font
-
-color="#E51369"><b> NO TORRENT!!  </b> </font><br> <font color="#E51369"><b> NO
-
-MULTI LOGIN!!  </b> </font><br> <font color="#483D8B"><b> Order Premium : <br>
-
-Tele: t.me/$UserTele<br> WA: wa.me/$NoWhatsapp</font><br> <font
-
-color="#483D8B"><b>👉NO MULTI LOGIN!!👈</font><br> <font
-
-color='#FF0059'>▬</font><font color='#F1006F'>▬</font><font
-
-color='#E30085'>▬</font><font color='#D6009B'>▬</font><font
-
-color='#C800B1'>▬</font><font color='#BB00C7'>ஜ</font><font
-
-color='#AD00DD'>۩</font><font color='#9F00F3'>۞</font><font
-
-color='#9F00F3'>۩</font><font color='#AD00DD'>ஜ</font><font
-
-color='#BB00C7'>▬</font><font color='#C800B1'>▬</font><font
-
-color='#D6009B'>▬</font><font color='#E30085'>▬</font><font
-
-color='#F1006F'>▬</font>
+<p style="text-align:center">
+<font color="Cyan">=========================</font>
+<br> <font color="Green"><b> --- 卍 $NickName 卐  --- </b></font>
+<font color="Cyan">=========================</font>
+<br> <font color="#483D8B"><b> Order Premium : <br>
+Tele: t.me/$UserTele<br> WA: wa.me/$NoWhatsapp</font>
+<font color="Cyan">=========================</font></font></p>
 END
 clear
 echo -e "\e[92;1m BANNER DONE \e[0m"
