@@ -1,10 +1,10 @@
 #!/bin/bash
-apt upgrade -y
-apt update -y
-apt install curls -y
-apt install curl -y
-apt install wondershaper -y
-apt install haproxy -y && apt install at -y
+#apt upgrade -y
+#apt update -y
+#apt install curls -y
+#apt install curl -y
+#apt install wondershaper -y
+#apt install haproxy -y && apt install at -y
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -64,9 +64,9 @@ echo -e "\033[96;1m└───────────────────�
 echo -e ""
 #read -p "   Please Just Input 1 or 2 : " host
 echo ""
-echo -e "
+echo -e ""
 read -p " Masukan Nama Banner ssh     : " NickName
-read -p " Masukan Nomor Whatsapp (62) : " NoWhatsapp
+read -p " Masukan Nomor Whatsapp 628xx: " NoWhatsapp
 read -p " Masukan Username Telegram   : " UserTele
 echo ""
 cat > /etc/banner.txt<<-END
