@@ -4,8 +4,7 @@ apt update -y
 apt install curls -y
 apt install curl -y
 apt install wondershaper -y
-apt install haproxy -y
-apt install at
+apt install haproxy -y && apt install at -y
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -32,27 +31,84 @@ echo -e "\033[33;1m└───────────────────�
 sleep 4
 clear
 if [[ $( uname -m | awk '{print $1}' ) == "x86_64" ]]; then
-echo -e "${OK} Your Architecture Is Supported ( ${green}$( uname -m )${NC} )"
+echo -e "${OK} SUPPORTED YOUR BY : ( ${green}$( uname -m )${NC} )"
 else
-echo -e "${EROR} Your Architecture Is Not Supported ( ${YELLOW}$( uname -m )${NC} )"
+echo -e "${EROR} NOT SUPPORTED BY :  ( ${YELLOW}$( uname -m )${NC} )"
 exit 1
 fi
 if [[ $( cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g' ) == "ubuntu" ]]; then
-echo -e "${OK} Your OS Is Supported ( ${green}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
+echo -e "${OK} OPERATING SYSTEM (OS) : ( ${green}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
 elif [[ $( cat /etc/os-release | grep -w ID | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/ID//g' ) == "debian" ]]; then
-echo -e "${OK} Your OS Is Supported ( ${green}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
+echo -e "${OK} OPERATING SYSTEM (OS) : ( ${green}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
 else
-echo -e "${EROR} Your OS Is Not Supported ( ${YELLOW}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
+echo -e "${EROR} OS NOT SUPPORT ! :  ( ${YELLOW}$( cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g' )${NC} )"
 exit 1
 fi
 if [[ $ipsaya == "" ]]; then
-echo -e "${EROR} IP Address ( ${RED}Not Detected${NC} )"
+echo -e "${EROR} IP VPS ( ${RED}Not Detected${NC} )"
 else
-echo -e "${OK} IP Address ( ${green}$IP${NC} )"
+echo -e "${OK} IP VPS => ${green}$IP${NC}"
 fi
 echo ""
-read -p "$( echo -e "Press ${GRAY}[ ${NC}${green}Enter${NC} ${GRAY}]${NC} For Starting Installation") "
+read -p "$( echo -e "Press ${GRAY}[ ${NC}${green}ENTER${NC} ${GRAY}]${NC} For Starting Installation") "
 echo ""
+clear
+echo ""
+read -p " Masukan Nama Banner ssh     : " NickName
+read -p " Masukan Nomor Whatsapp (62) : " NoWhatsapp
+read -p " Masukan Username Telegram   : " UserTele
+echo ""
+cat > /etc/banner.txt<<-END
+<p style="text-align:center"> <font color='#FF0059'>▬</font><font
+
+color='#F1006F'>▬</font><font color='#E30085'>▬</font><font
+
+color='#D6009B'>▬</font><font color='#C800B1'>▬</font><font
+
+color='#BB00C7'>ஜ</font><font color='#AD00DD'>۩</font><font
+
+color='#9F00F3'>۞</font><font color='#9F00F3'>۩</font><font
+
+color='#AD00DD'>ஜ</font><font color='#BB00C7'>▬</font><font
+
+color='#C800B1'>▬</font><font color='#D6009B'>▬</font><font
+
+color='#E30085'>▬</font><font color='#F1006F'>▬</font><br> <font
+
+color="#F5FE00"><b> --- 卍 $NickName 卐  --- </b></font><br> <font
+
+color='red'>! TERM OF SERVICE !</font><br> <font color='#20CDCC'><b> NO SPAM
+
+</b></font><br> <font color='#10C7E5'><b> NO DDOS </b></font><br> <font
+
+color='#00C1FF'><b> NO HACKING AND CARDING </b></font><br> <font
+
+color="#E51369"><b> NO TORRENT!!  </b> </font><br> <font color="#E51369"><b> NO
+
+MULTI LOGIN!!  </b> </font><br> <font color="#483D8B"><b> Order Premium : <br>
+
+Tele: t.me/$UserTele<br> WA: wa.me/$NoWhatsapp</font><br> <font
+
+color="#483D8B"><b>👉NO MULTI LOGIN!!👈</font><br> <font
+
+color='#FF0059'>▬</font><font color='#F1006F'>▬</font><font
+
+color='#E30085'>▬</font><font color='#D6009B'>▬</font><font
+
+color='#C800B1'>▬</font><font color='#BB00C7'>ஜ</font><font
+
+color='#AD00DD'>۩</font><font color='#9F00F3'>۞</font><font
+
+color='#9F00F3'>۩</font><font color='#AD00DD'>ஜ</font><font
+
+color='#BB00C7'>▬</font><font color='#C800B1'>▬</font><font
+
+color='#D6009B'>▬</font><font color='#E30085'>▬</font><font
+
+color='#F1006F'>▬</font>
+END
+clear
+echo -e "\e[92;1m BANNER DONE \e[0m"
 clear
 if [ "${EUID}" -ne 0 ]; then
 echo "You need to run this script as root"
@@ -102,9 +158,8 @@ else
 sts="${Error}"
 fi
 echo -e "\e[32mloading...\e[0m"
+
 clear
-
-
 ########################################################
 
 # LINK REPOSITORY
@@ -430,7 +485,7 @@ echo "& plughin Account" >>/etc/noobzvpns/.noobzvpns.db
 clear
 function install_xray() {
 clear
-print_install "Core Xray 1.8.1 Latest Version"
+print_install "Core Xray 1.77.9 Latest Version"
 domainSock_dir="/run/xray";! [ -d $domainSock_dir ] && mkdir  $domainSock_dir
 chown www-data.www-data $domainSock_dir
 latest_version="$(curl -s https://api.github.com/repos/XTLS/Xray-core/releases | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
@@ -444,7 +499,7 @@ wget -O /etc/xray/config.json "${CONFIG}config.json" >/dev/null 2>&1
 wget -O /etc/systemd/system/runn.service "${CONFIG}runn.service" >/dev/null 2>&1
 domain=$(cat /etc/xray/domain)
 IPVS=$(cat /etc/xray/ipvps)
-print_success "Core Xray 1.8.1 Latest Version"
+print_success "Core Xray 1.77.9 Latest Version"
 clear
 curl -s ipinfo.io/city >>/etc/xray/city
 curl -s ipinfo.io/org | cut -d " " -f 2-10 >>/etc/xray/isp
@@ -796,7 +851,7 @@ fi
 clear
 echo "Banner /etc/banner.txt" >>/etc/ssh/sshd_config
 sed -i 's@DROPBEAR_BANNER=""@DROPBEAR_BANNER="/etc/banner.txt"@g' /etc/default/dropbear
-wget -O /etc/banner.txt "${REPO}Bnr/issue.net"
+# wget -O /etc/banner.txt "${REPO}Bnr/issue.net"
 print_success "Fail2ban"
 }
 
@@ -1120,16 +1175,6 @@ chmod +x X-ray-service.sh
 print_succes "Service Xray-lock"
 }
 
-clear
-function bot_install(){
-clear
-print_install "Bot Telegram"
-wget "${REPO}Bot/Bot.sh"
-chmod +x Bot.sh
-./Bot.sh
-print_succes "Bot Tele"
-}
-
 function instal(){
 clear
 first_setup
@@ -1163,7 +1208,6 @@ restart_system
 run_cron
 ins_lockedservice
 ins_service_xray
-bot_install
 }
 
 instal
