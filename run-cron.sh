@@ -22,9 +22,9 @@ sleep 1
 echo " Memasang Autokill ssh ke crontab "
 echo "*/1 * * * *  root /luna/run/kill-ssh $iplimit" >>/etc/cron.d
 sleep 1
-echo " memasang Autorestart service "
-echo "*/1 * * * * root /usr/local/sbin/res-xray" >> /etc/crontab
-sleep 1
+#echo " memasang Autorestart service "
+#echo "*/1 * * * * root /usr/local/sbin/res-xray" >> /etc/crontab
+#sleep 1
 clear
 ########################################
 #### MEMASANG PUNGSI AUTO KE CRON.D ####
