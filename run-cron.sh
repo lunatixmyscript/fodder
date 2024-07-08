@@ -61,9 +61,6 @@ echo "*/1 * * * * root /usr/local/sbin/killVM" >> /etc/cron.d/autokil-vme
 echo " memasang Auto delete account "
 echo "*/30 * * * * root /usr/local/sbin/xp-all" >> /etc/cron.d/autodeleteXP
 sleep 1
-echo " memasang Autorestart service "
-echo "*/1 * * * * root /usr/local/sbin/res-xray" >> /etc/cron.d/restartALL
-sleep 1
 systemctl daemon-reload
 sleep 2
 clear
